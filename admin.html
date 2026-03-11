@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard – TechM4India</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#FFFBF5;--ink:#1A1A2E;--ink-l:#4A4A6A;
+  --orange:#FF6B35;--pink:#FF4D8D;--purple:#7B2FF7;
+  --blue:#0EA5E9;--green:#22C55E;--yellow:#FFD60A;
+  --red:#EF4444;--amber:#F59E0B;
+  --border:rgba(26,26,46,.09);--surface:#FFFFFF;
+  --g-main:linear-gradient(135deg,#FF6B35,#FF4D8D);
+  --g-cool:linear-gradient(135deg,#0EA5E9,#7B2FF7);
+  --g-green:linear-gradient(135deg,#22C55E,#0EA5E9);
+  --g-warm:linear-gradient(135deg,#FFD60A,#FF6B35);
+  --sidebar-w:230px;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Quicksand',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;display:flex;overflow-x:hidden}
+
+/* GATE */
+.admin-gate{position:fixed;inset:0;z-index:9999;background:var(--ink);display:flex;align-items:center;justify-content:center;transition:opacity .5s,visibility .5s;overflow:hidden}
+.admin-gate.hidden{opacity:0;visibility:hidden;pointer-events:none}
+.gate-blob{position:absolute;border-radius:50%;filter:blur(90px);pointer-events:none;animation:gBP ease-in-out infinite alternate}
+.gb1{width:500px;height:500px;background:rgba(255,107,53,.15);top:-150px;right:-100px;animation-duration:7s}
+.gb2{width:380px;height:380px;background:rgba(255,77,141,.1);bottom:-80px;left:-80px;animation-duration:9s;animation-delay:-4s}
+.gb3{width:250px;height:250px;background:rgba(123,47,247,.08);top:40%;left:35%;animation-duration:6s;animation-delay:-2s}
+@keyframes gBP{from{transform:scale(1)}to{transform:scale(1.15) translate(15px,10px)}}
+.gate-grid{position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.04) 1.5px,transparent 1.5px);background-size:30px 30px}
+.gate-box{background:var(--surface);border-radius:24px;padding:3rem;width:420px;text-align:center;position:relative;z-index:1;box-shadow:0 40px 120px rgba(0,0,0,.35);animation:gateIn .5s cubic-bezier(.34,1.56,.64,1)}
+@keyframes gateIn{from{opacity:0;transform:scale(.9) translateY(30px)}to{opacity:1;transform:none}}
+.gate-icon{width:64px;height:64px;border-radius:18px;background:var(--g-main);margin:0 auto 1.2rem;display:flex;align-items:center;justify-content:center;font-size:1.8rem;box-shadow:0 8px 28px rgba(255,107,53,.35);animation:iBounce .7s .3s cubic-bezier(.34,1.56,.64,1) both}
+@keyframes iBounce{from{opacity:0;transform:scale(.5)}to{opacity:1;transform:none}}
+.gate-logo{font-family:'Nunito',sans-serif;font-weight:900;font-size:1.5rem;color:var(--ink);margin-bottom:.3rem}
+.gate-logo span{background:var(--g-main);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.gate-badge{display:inline-block;background:rgba(255,107,53,.1);color:var(--orange);font-size:.72rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;padding:.3rem .9rem;border-radius:100px;margin-bottom:1.5rem;border:1px solid rgba(255,107,53,.2)}
+.gate-sub{font-size:.85rem;color:var(--ink-l);margin-bottom:2rem;line-height:1.6;font-weight:600}
+.gate-fw{position:relative;margin-bottom:.9rem}
+.gate-fi{position:absolute;left:1rem;top:50%;transform:translateY(-50%);font-size:.9rem}
+.gate-field{border:1.5px solid var(--border);border-radius:12px;padding:.82rem 1rem .82rem 2.8rem;width:100%;font-family:'Quicksand',sans-serif;font-size:.9rem;font-weight:600;color:var(--ink);outline:none;transition:border-color .2s,box-shadow .2s;background:rgba(26,26,46,.03)}
+.gate-field:focus{border-color:var(--orange);box-shadow:0 0 0 4px rgba(255,107,53,.1)}
+.gate-btn{width:100%;background:var(--g-main);color:#fff;border:none;border-radius:100px;padding:.9rem;font-family:'Nunito',sans-serif;font-weight:900;font-size:.95rem;cursor:pointer;box-shadow:0 6px 24px rgba(255,107,53,.32);transition:transform .2s,box-shadow .2s;display:flex;align-items:center;justify-content:center;gap:.5rem}
+.gate-btn:hover{transform:translateY(-2px);box-shadow:0 10px 32px rgba(255,107,53,.44)}
+.gate-hint{font-size:.74rem;color:var(--ink-l);margin-top:1rem;line-height:1.6;font-weight:600}
+.gate-hint strong{color:var(--orange);font-weight:800}
+.gate-back{display:inline-block;margin-top:.9rem;font-size:.8rem;color:var(--ink-l);text-decoration:none;font-weight:700;transition:color .2s}
+.gate-back:hover{color:var(--orange)}
+
+/* SIDEBAR */
+.admin-sidebar{width:var(--sidebar-w);flex-shrink:0;background:var(--ink);display:flex;flex-direction:column;min-height:100vh;position:sticky;top:0;overflow:hidden}
+.sidebar-brand{padding:1.5rem;border-bottom:1px solid rgba(255,255,255,.07);display:flex;align-items:center;gap:.85rem;text-decoration:none}
+.brand-icon{width:38px;height:38px;border-radius:12px;flex-shrink:0;background:var(--g-main);display:flex;align-items:center;justify-content:center;font-family:'Nunito',sans-serif;font-weight:900;font-size:.95rem;color:#fff;box-shadow:0 4px 14px rgba(255,107,53,.3)}
+.brand-text{font-family:'Nunito',sans-serif;font-weight:900;font-size:.92rem;color:#fff}
+.brand-sub{font-size:.67rem;color:rgba(255,255,255,.35);font-weight:600;margin-top:.1rem}
+.sidebar-nav{flex:1;padding:1rem 0;overflow-y:auto}.sidebar-nav::-webkit-scrollbar{display:none}
+.nav-group{margin-bottom:1.4rem}
+.nav-group-label{font-size:.6rem;font-weight:800;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.22);padding:0 1.2rem;margin-bottom:.5rem}
+.sidebar-link{display:flex;align-items:center;gap:.8rem;padding:.7rem 1.2rem;text-decoration:none;font-size:.84rem;font-weight:700;color:rgba(255,255,255,.58);position:relative;cursor:pointer;transition:background .2s,color .2s}
+.sidebar-link:hover{background:rgba(255,255,255,.06);color:rgba(255,255,255,.88)}
+.sidebar-link.active{background:rgba(255,107,53,.15);color:#fff}
+.sidebar-link.active::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--orange);border-radius:0 3px 3px 0}
+.s-icon{font-size:1rem;flex-shrink:0}
+.s-badge{margin-left:auto;background:var(--g-main);color:#fff;font-size:.62rem;font-weight:800;padding:.15rem .5rem;border-radius:100px;box-shadow:0 2px 8px rgba(255,107,53,.3)}
+.sidebar-user{padding:1rem 1.2rem;border-top:1px solid rgba(255,255,255,.07);display:flex;align-items:center;gap:.75rem}
+.user-ava{width:36px;height:36px;border-radius:50%;flex-shrink:0;background:var(--g-main);display:flex;align-items:center;justify-content:center;font-size:.95rem;box-shadow:0 3px 10px rgba(255,107,53,.3)}
+.user-name{font-size:.82rem;font-weight:800;color:#fff}
+.user-role{font-size:.67rem;color:rgba(255,255,255,.35);font-weight:600}
+.logout-btn{background:none;border:none;cursor:pointer;color:rgba(255,255,255,.3);font-size:.85rem;margin-left:auto;transition:color .2s;padding:4px}
+.logout-btn:hover{color:var(--red)}
+
+/* TOPBAR */
+.admin-main{flex:1;min-width:0;display:flex;flex-direction:column}
+.topbar{background:rgba(255,251,245,.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);padding:0 2rem;height:62px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
+.topbar-left{display:flex;align-items:center;gap:1rem}
+.page-title{font-family:'Nunito',sans-serif;font-weight:900;font-size:1rem;color:var(--ink)}
+.breadcrumb{font-size:.75rem;color:var(--ink-l);font-weight:600}
+.topbar-right{display:flex;align-items:center;gap:.75rem}
+.tb-btn{background:var(--g-main);color:#fff;border:none;border-radius:100px;padding:.45rem 1.1rem;font-family:'Nunito',sans-serif;font-weight:800;font-size:.82rem;cursor:pointer;box-shadow:0 3px 12px rgba(255,107,53,.25);transition:transform .2s}
+.tb-btn:hover{transform:translateY(-1px)}
+.tb-btn-ghost{background:transparent;color:var(--ink-l);border:1.5px solid var(--border);border-radius:100px;padding:.45rem 1.1rem;font-family:'Nunito',sans-serif;font-weight:700;font-size:.82rem;cursor:pointer;transition:border-color .2s,color .2s}
+.tb-btn-ghost:hover{border-color:var(--orange);color:var(--orange)}
+.notif-wrap{position:relative}
+.notif-wrap::after{content:'3';position:absolute;top:-4px;right:-4px;width:16px;height:16px;border-radius:50%;background:var(--red);border:2px solid var(--bg);font-size:.6rem;font-weight:800;color:#fff;display:flex;align-items:center;justify-content:center;line-height:16px;text-align:center}
+
+/* CONTENT */
+.content{padding:2rem;flex:1}
+.content-panel{display:none;animation:panelIn .3s ease}
+.content-panel.active{display:block}
+@keyframes panelIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.panel-heading{margin-bottom:2rem}
+.panel-heading h2{font-family:'Nunito',sans-serif;font-weight:900;font-size:1.5rem;color:var(--ink)}
+.panel-heading p{font-size:.87rem;color:var(--ink-l);font-weight:600;margin-top:.3rem}
+
+/* STATS */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1.2rem;margin-bottom:2rem}
+.stat-card{background:var(--surface);border-radius:18px;padding:1.5rem;border:1.5px solid var(--border);transition:transform .25s,box-shadow .25s,border-color .25s}
+.stat-card:hover{transform:translateY(-4px);box-shadow:0 12px 36px rgba(26,26,46,.08);border-color:rgba(255,107,53,.15)}
+.sc-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1rem}
+.sc-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.2rem}
+.sc-change{font-size:.72rem;font-weight:800;padding:.22rem .55rem;border-radius:100px}
+.sc-change.up{background:rgba(34,197,94,.12);color:#15803d}
+.sc-change.dn{background:rgba(239,68,68,.1);color:#b91c1c}
+.sc-num{font-family:'Nunito',sans-serif;font-weight:900;font-size:2rem;line-height:1;margin-bottom:.4rem}
+.sc-label{font-size:.78rem;color:var(--ink-l);font-weight:700}
+
+/* CHARTS */
+.charts-row{display:grid;grid-template-columns:2fr 1fr;gap:1.2rem;margin-bottom:2rem}
+.chart-card{background:var(--surface);border-radius:18px;padding:1.5rem;border:1.5px solid var(--border)}
+.chart-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem}
+.chart-title{font-family:'Nunito',sans-serif;font-weight:900;font-size:.95rem}
+.chart-filter{border:1.5px solid var(--border);border-radius:100px;padding:.3rem .8rem;font-family:'Quicksand',sans-serif;font-size:.78rem;font-weight:700;color:var(--ink-l);background:var(--bg);outline:none;cursor:pointer}
+.bar-chart{display:flex;align-items:flex-end;gap:.45rem;height:140px}
+.bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;gap:.3rem}
+.bar{width:100%;border-radius:8px 8px 0 0;transition:height .5s ease;animation:barGrow .8s ease both}
+@keyframes barGrow{from{height:0!important}to{}}
+.bar-lbl{font-size:.62rem;color:var(--ink-l);font-weight:700;text-align:center}
+.donut-wrap{display:flex;flex-direction:column;align-items:center;gap:1rem}
+.donut-sw{position:relative;width:130px;height:130px}
+.donut-sw svg{transform:rotate(-90deg)}
+.donut-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.donut-center span{font-family:'Nunito',sans-serif;font-weight:900;font-size:1.4rem;color:var(--ink)}
+.donut-center small{font-size:.62rem;color:var(--ink-l);font-weight:700}
+.donut-legend{width:100%}
+.leg-item{display:flex;align-items:center;gap:.5rem;font-size:.78rem;color:var(--ink-l);font-weight:700;margin-bottom:.45rem}
+.leg-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+
+/* TABLE */
+.table-card{background:var(--surface);border-radius:18px;border:1.5px solid var(--border);overflow:hidden;margin-bottom:2rem}
+.table-hd{padding:1.2rem 1.5rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:.75rem}
+.table-title{font-family:'Nunito',sans-serif;font-weight:900;font-size:.95rem}
+.table-actions{display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.search-input{border:1.5px solid var(--border);border-radius:100px;padding:.45rem 1rem;font-family:'Quicksand',sans-serif;font-size:.82rem;font-weight:600;outline:none;width:200px;transition:border-color .2s;background:var(--bg)}
+.search-input:focus{border-color:var(--orange)}
+.add-btn{background:var(--g-main);color:#fff;border:none;border-radius:100px;padding:.45rem 1.1rem;font-family:'Nunito',sans-serif;font-weight:800;font-size:.82rem;cursor:pointer;box-shadow:0 3px 12px rgba(255,107,53,.25);transition:transform .2s}
+.add-btn:hover{transform:translateY(-1px)}
+table{width:100%;border-collapse:collapse}
+th{background:rgba(26,26,46,.03);padding:.8rem 1.5rem;text-align:left;font-size:.68rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-l);border-bottom:1px solid var(--border)}
+td{padding:.9rem 1.5rem;font-size:.84rem;color:var(--ink-l);border-bottom:1px solid var(--border);font-weight:600}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(255,107,53,.02)}
+.td-thumb{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+.badge{display:inline-flex;align-items:center;gap:.3rem;padding:.2rem .6rem;border-radius:100px;font-size:.68rem;font-weight:800}
+.badge-active{background:rgba(34,197,94,.12);color:#15803d}
+.badge-draft{background:rgba(245,158,11,.12);color:#b45309}
+.badge-eng{background:rgba(14,165,233,.12);color:#0369a1}
+.badge-sol{background:rgba(123,47,247,.12);color:#6d28d9}
+.badge-space{background:rgba(26,26,46,.1);color:var(--ink)}
+.badge-sch{background:rgba(255,107,53,.12);color:var(--orange)}
+.action-btns{display:flex;gap:.4rem}
+.action-btn{background:none;border:1.5px solid var(--border);border-radius:8px;padding:.28rem .65rem;font-size:.72rem;font-weight:800;cursor:pointer;color:var(--ink-l);transition:all .2s;font-family:'Nunito',sans-serif}
+.action-btn:hover{border-color:var(--orange);color:var(--orange)}
+.action-btn.danger:hover{border-color:var(--red);color:var(--red)}
+.action-btn.approve:hover{border-color:var(--green);color:var(--green)}
+
+/* ACTIVITY */
+.activity-item{display:flex;align-items:center;gap:1rem;padding:.9rem 1.5rem;border-bottom:1px solid var(--border);transition:background .2s}
+.activity-item:last-child{border-bottom:none}
+.activity-item:hover{background:rgba(255,107,53,.02)}
+.act-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.act-text{flex:1;font-size:.83rem;font-weight:700;color:var(--ink)}
+.act-time{font-size:.74rem;color:var(--ink-l);font-weight:600;white-space:nowrap}
+
+/* ANALYTICS MINI */
+.analytics-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin-bottom:2rem}
+.a-card{background:var(--surface);border-radius:18px;padding:1.5rem;border:1.5px solid var(--border)}
+.a-card-title{font-family:'Nunito',sans-serif;font-weight:900;font-size:.88rem;margin-bottom:1rem;color:var(--ink-l)}
+.mini-bar-chart{display:flex;align-items:flex-end;gap:.3rem;height:60px}
+.mini-bar{flex:1;border-radius:4px 4px 0 0;animation:barGrow .6s ease both}
+
+/* COLLABORATORS */
+.collab-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin-bottom:2rem}
+.collab-card{background:var(--surface);border-radius:16px;padding:1.4rem;border:1.5px solid var(--border);display:flex;flex-direction:column;gap:.7rem;transition:transform .25s,box-shadow .25s,border-color .25s}
+.collab-card:hover{transform:translateY(-3px);box-shadow:0 10px 28px rgba(26,26,46,.07);border-color:rgba(255,107,53,.15)}
+.cc-top{display:flex;align-items:center;justify-content:space-between}
+.cc-icon{font-size:1.6rem}
+.cc-name{font-family:'Nunito',sans-serif;font-weight:900;font-size:.95rem;color:var(--ink)}
+.cc-type{font-size:.74rem;color:var(--ink-l);font-weight:700}
+.cc-actions{display:flex;gap:.4rem;margin-top:.3rem}
+
+/* SETTINGS */
+.settings-section{background:var(--surface);border-radius:18px;border:1.5px solid var(--border);padding:1.8rem;margin-bottom:1.5rem}
+.settings-section-title{font-family:'Nunito',sans-serif;font-weight:900;font-size:1rem;margin-bottom:.4rem}
+.settings-section-sub{font-size:.82rem;color:var(--ink-l);font-weight:600;margin-bottom:1.5rem;padding-bottom:1.2rem;border-bottom:1px solid var(--border)}
+.settings-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.s-field label{display:block;font-size:.78rem;font-weight:800;color:var(--ink);margin-bottom:.4rem}
+.s-field input,.s-field select,.s-field textarea{width:100%;border:1.5px solid var(--border);border-radius:12px;padding:.8rem 1rem;font-family:'Quicksand',sans-serif;font-size:.88rem;font-weight:600;color:var(--ink);outline:none;transition:border-color .2s,box-shadow .2s;background:rgba(26,26,46,.03)}
+.s-field input:focus,.s-field select:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(255,107,53,.1)}
+.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:.75rem 0;border-bottom:1px solid var(--border)}
+.toggle-row:last-child{border-bottom:none}
+.toggle-label{font-size:.87rem;font-weight:800;color:var(--ink)}
+.toggle-desc{font-size:.76rem;color:var(--ink-l);font-weight:600;margin-top:.15rem}
+.toggle{position:relative;width:44px;height:24px;flex-shrink:0}
+.toggle input{opacity:0;width:0;height:0}
+.toggle-slider{position:absolute;inset:0;background:var(--border);border-radius:100px;cursor:pointer;transition:background .25s}
+.toggle-slider::before{content:'';position:absolute;width:18px;height:18px;border-radius:50%;background:#fff;top:3px;left:3px;transition:transform .25s;box-shadow:0 1px 4px rgba(0,0,0,.15)}
+.toggle input:checked~.toggle-slider{background:var(--orange)}
+.toggle input:checked~.toggle-slider::before{transform:translateX(20px)}
+
+/* MODAL */
+.modal-bg{position:fixed;inset:0;background:rgba(26,26,46,.45);backdrop-filter:blur(4px);z-index:500;display:none;align-items:center;justify-content:center;padding:2rem}
+.modal-bg.open{display:flex}
+.modal{background:var(--surface);border-radius:22px;width:100%;max-width:540px;overflow:hidden;animation:modalIn .3s cubic-bezier(.34,1.56,.64,1);box-shadow:0 30px 80px rgba(26,26,46,.2)}
+@keyframes modalIn{from{opacity:0;transform:scale(.92) translateY(20px)}to{opacity:1;transform:none}}
+.modal-top{padding:1.5rem 2rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.modal-top h3{font-family:'Nunito',sans-serif;font-weight:900;font-size:1.1rem}
+.modal-close{background:none;border:1.5px solid var(--border);border-radius:8px;width:32px;height:32px;cursor:pointer;color:var(--ink-l);font-size:1rem;display:flex;align-items:center;justify-content:center;transition:border-color .2s}
+.modal-close:hover{border-color:var(--red);color:var(--red)}
+.modal-body{padding:1.5rem 2rem 2rem}
+.m-field{margin-bottom:.95rem}
+.m-field label{display:block;font-size:.78rem;font-weight:800;color:var(--ink);margin-bottom:.4rem}
+.m-field input,.m-field select,.m-field textarea{width:100%;border:1.5px solid var(--border);border-radius:12px;padding:.78rem 1rem;font-family:'Quicksand',sans-serif;font-size:.88rem;font-weight:600;color:var(--ink);outline:none;transition:border-color .2s,box-shadow .2s;background:rgba(26,26,46,.03)}
+.m-field input:focus,.m-field select:focus,.m-field textarea:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(255,107,53,.1)}
+.m-field textarea{resize:vertical;min-height:80px}
+.m-row{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+.modal-footer{display:flex;gap:.75rem;justify-content:flex-end;margin-top:.5rem}
+.modal-save{background:var(--g-main);color:#fff;border:none;border-radius:100px;padding:.72rem 1.6rem;font-family:'Nunito',sans-serif;font-weight:800;font-size:.88rem;cursor:pointer;box-shadow:0 4px 14px rgba(255,107,53,.28);transition:transform .2s}
+.modal-save:hover{transform:translateY(-1px)}
+.modal-cancel{background:transparent;color:var(--ink-l);border:1.5px solid var(--border);border-radius:100px;padding:.72rem 1.3rem;font-family:'Nunito',sans-serif;font-weight:700;font-size:.88rem;cursor:pointer;transition:border-color .2s}
+.modal-cancel:hover{border-color:var(--red);color:var(--red)}
+
+/* TOAST */
+.toast{position:fixed;bottom:2rem;right:2rem;background:var(--ink);color:#fff;padding:.82rem 1.5rem;border-radius:100px;font-family:'Nunito',sans-serif;font-size:.85rem;font-weight:700;transform:translateY(100px);opacity:0;transition:transform .4s cubic-bezier(.34,1.56,.64,1),opacity .3s;z-index:9000;display:flex;align-items:center;gap:.5rem}
+.toast.show{transform:translateY(0);opacity:1}
+
+.coming-soon{background:var(--surface);border-radius:18px;border:1.5px solid var(--border);padding:5rem 2rem;text-align:center}
+.cs-icon{font-size:3rem;margin-bottom:1rem}
+.coming-soon h3{font-family:'Nunito',sans-serif;font-weight:900;font-size:1.3rem;margin-bottom:.5rem}
+.coming-soon p{color:var(--ink-l);font-size:.9rem;font-weight:600}
+
+@media(max-width:1200px){.stats-row{grid-template-columns:repeat(2,1fr)}.charts-row{grid-template-columns:1fr}.analytics-grid{grid-template-columns:1fr 1fr}.collab-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:768px){.admin-sidebar{display:none}.topbar{padding:0 1rem}.content{padding:1.2rem}.stats-row{grid-template-columns:1fr}.analytics-grid{grid-template-columns:1fr}.collab-grid{grid-template-columns:1fr}.settings-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<!-- LOGIN GATE -->
+<div class="admin-gate" id="adminGate">
+  <div class="gate-grid"></div>
+  <div class="gate-blob gb1"></div><div class="gate-blob gb2"></div><div class="gate-blob gb3"></div>
+  <div class="gate-box">
+    <div class="gate-icon">🛡️</div>
+    <div class="gate-logo">Tech<span>M4</span></div>
+    <div class="gate-badge">Admin Portal</div>
+    <p class="gate-sub">Enter your administrator credentials to access the management dashboard.</p>
+    <div class="gate-fw"><span class="gate-fi">✉️</span><input class="gate-field" type="email" id="gateEmail" placeholder="admin@techm4.in"></div>
+    <div class="gate-fw"><span class="gate-fi">🔒</span><input class="gate-field" type="password" id="gatePass" placeholder="Admin password"></div>
+    <button class="gate-btn" onclick="adminLogin()"><span>Access Dashboard</span><span>→</span></button>
+    <p class="gate-hint">Demo: <strong>admin@techm4.in</strong> / <strong>admin123</strong></p>
+    <a href="index.html" class="gate-back">← Back to TechM4 Homepage</a>
+  </div>
+</div>
+
+<!-- SIDEBAR -->
+<nav class="admin-sidebar">
+  <a href="index.html" class="sidebar-brand">
+    <div class="brand-icon">M4</div>
+    <div><div class="brand-text">TechM4India</div><div class="brand-sub">Admin Dashboard</div></div>
+  </a>
+  <div class="sidebar-nav">
+    <div class="nav-group">
+      <div class="nav-group-label">Overview</div>
+      <div class="sidebar-link active" onclick="showPanel('overview',this)"><span class="s-icon">📊</span>Dashboard</div>
+      <div class="sidebar-link" onclick="showPanel('analytics',this)"><span class="s-icon">📈</span>Analytics</div>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-label">Content</div>
+      <div class="sidebar-link" onclick="showPanel('courses',this)"><span class="s-icon">🎓</span>Courses<span class="s-badge">120</span></div>
+      <div class="sidebar-link" onclick="showPanel('divisions',this)"><span class="s-icon">🏢</span>Divisions</div>
+      <div class="sidebar-link" onclick="showPanel('labs',this)"><span class="s-icon">🔬</span>Labs &amp; Kits</div>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-label">People</div>
+      <div class="sidebar-link" onclick="showPanel('users',this)"><span class="s-icon">👥</span>Users<span class="s-badge">3</span></div>
+      <div class="sidebar-link" onclick="showPanel('collaborators',this)"><span class="s-icon">🤝</span>Collaborators</div>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-label">System</div>
+      <div class="sidebar-link" onclick="showPanel('settings',this)"><span class="s-icon">⚙️</span>Settings</div>
+      <div class="sidebar-link" onclick="window.open('index.html')"><span class="s-icon">🌐</span>View Site</div>
+    </div>
+  </div>
+  <div class="sidebar-user">
+    <div class="user-ava">👤</div>
+    <div><div class="user-name">Admin User</div><div class="user-role">Super Admin</div></div>
+    <button class="logout-btn" onclick="adminLogout()" title="Logout">⏻</button>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<div class="admin-main">
+  <div class="topbar">
+    <div class="topbar-left">
+      <div>
+        <div class="page-title" id="pageTitle">Dashboard Overview</div>
+        <div class="breadcrumb">TechM4Admin › <span id="bcSpan">Dashboard</span></div>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <button class="tb-btn-ghost notif-wrap" onclick="showToast('🔔 3 new notifications')">🔔</button>
+      <a href="index.html" class="tb-btn-ghost">View Site</a>
+      <button class="tb-btn" onclick="adminLogout()">Logout</button>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- OVERVIEW -->
+    <div class="content-panel active" id="panel-overview">
+      <div class="panel-heading"><h2>Good morning, Admin 👋</h2><p>Here's what's happening across TechM4India today.</p></div>
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="sc-top"><div class="sc-icon" style="background:rgba(255,107,53,.1)">🎓</div><span class="sc-change up">↑ 12%</span></div>
+          <div class="sc-num" style="background:var(--g-main);-webkit-background-clip:text;-webkit-text-fill-color:transparent" data-count="120" data-suffix="+">0</div>
+          <div class="sc-label">Total Courses</div>
+        </div>
+        <div class="stat-card">
+          <div class="sc-top"><div class="sc-icon" style="background:rgba(14,165,233,.1)">👥</div><span class="sc-change up">↑ 28%</span></div>
+          <div class="sc-num" style="background:var(--g-cool);-webkit-background-clip:text;-webkit-text-fill-color:transparent" data-count="50000" data-k="1">0</div>
+          <div class="sc-label">Enrolled Students</div>
+        </div>
+        <div class="stat-card">
+          <div class="sc-top"><div class="sc-icon" style="background:rgba(34,197,94,.1)">🏛️</div><span class="sc-change up">↑ 8%</span></div>
+          <div class="sc-num" style="background:var(--g-green);-webkit-background-clip:text;-webkit-text-fill-color:transparent" data-count="500" data-suffix="+">0</div>
+          <div class="sc-label">Partner Institutions</div>
+        </div>
+        <div class="stat-card">
+          <div class="sc-top"><div class="sc-icon" style="background:rgba(255,214,10,.15)">💰</div><span class="sc-change up">↑ 34%</span></div>
+          <div class="sc-num" style="background:var(--g-warm);-webkit-background-clip:text;-webkit-text-fill-color:transparent" id="revenueNum">₹0</div>
+          <div class="sc-label">Monthly Revenue</div>
+        </div>
+      </div>
+
+      <div class="charts-row">
+        <div class="chart-card">
+          <div class="chart-hd">
+            <div class="chart-title">Enrollment Trend</div>
+            <select class="chart-filter" onchange="buildBarChart(this.value)">
+              <option value="7m">Last 7 months</option>
+              <option value="12m">Last 12 months</option>
+            </select>
+          </div>
+          <div class="bar-chart" id="barChart"></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-hd"><div class="chart-title">Division Split</div></div>
+          <div class="donut-wrap">
+            <div class="donut-sw">
+              <svg width="130" height="130" viewBox="0 0 130 130">
+                <circle cx="65" cy="65" r="52" fill="none" stroke="rgba(26,26,46,.06)" stroke-width="17"/>
+                <circle cx="65" cy="65" r="52" fill="none" stroke="#0EA5E9" stroke-width="17" stroke-dasharray="130.7 196.1" stroke-dashoffset="0"/>
+                <circle cx="65" cy="65" r="52" fill="none" stroke="#FF6B35" stroke-width="17" stroke-dasharray="78.4 248.4" stroke-dashoffset="-130.7"/>
+                <circle cx="65" cy="65" r="52" fill="none" stroke="#7B2FF7" stroke-width="17" stroke-dasharray="52.3 274.5" stroke-dashoffset="-209.1"/>
+                <circle cx="65" cy="65" r="52" fill="none" stroke="#22C55E" stroke-width="17" stroke-dasharray="65.4 261.4" stroke-dashoffset="-261.4"/>
+              </svg>
+              <div class="donut-center"><span>4</span><small>Divisions</small></div>
+            </div>
+            <div class="donut-legend">
+              <div class="leg-item"><div class="leg-dot" style="background:#0EA5E9"></div>Engineering (40%)</div>
+              <div class="leg-item"><div class="leg-dot" style="background:#FF6B35"></div>Solutions (24%)</div>
+              <div class="leg-item"><div class="leg-dot" style="background:#7B2FF7"></div>Space (16%)</div>
+              <div class="leg-item"><div class="leg-dot" style="background:#22C55E"></div>Schools (20%)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="table-card">
+        <div class="table-hd"><div class="table-title">Recent Activity</div></div>
+        <div>
+          <div class="activity-item"><div class="act-dot" style="background:var(--orange)"></div><div class="act-text">Arjun K. enrolled in <strong>AI Engineering Bootcamp</strong></div><span class="badge badge-eng">Engineering</span><span class="act-time" style="margin-left:.8rem">2 min ago</span></div>
+          <div class="activity-item"><div class="act-dot" style="background:var(--green)"></div><div class="act-text">Priya R. completed <strong>IoT Systems Course</strong></div><span class="badge badge-eng">Engineering</span><span class="act-time" style="margin-left:.8rem">15 min ago</span></div>
+          <div class="activity-item"><div class="act-dot" style="background:var(--blue)"></div><div class="act-text">IIT Hyderabad signed up as a new institution</div><span class="badge badge-space">Space</span><span class="act-time" style="margin-left:.8rem">1 hr ago</span></div>
+          <div class="activity-item"><div class="act-dot" style="background:var(--purple)"></div><div class="act-text">Sunita S. added to <strong>Schools Program</strong></div><span class="badge badge-sch">Schools</span><span class="act-time" style="margin-left:.8rem">3 hr ago</span></div>
+          <div class="activity-item"><div class="act-dot" style="background:var(--pink)"></div><div class="act-text">New course <strong>MedTech AI</strong> published by Dr. Ananya</div><span class="badge badge-sol">Solutions</span><span class="act-time" style="margin-left:.8rem">5 hr ago</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ANALYTICS -->
+    <div class="content-panel" id="panel-analytics">
+      <div class="panel-heading"><h2>Analytics</h2><p>Performance metrics across all divisions.</p></div>
+      <div class="analytics-grid">
+        <div class="a-card"><div class="a-card-title">Weekly Enrollments</div><div class="mini-bar-chart" id="mb1"></div></div>
+        <div class="a-card"><div class="a-card-title">Revenue (₹ Lakhs)</div><div class="mini-bar-chart" id="mb2"></div></div>
+        <div class="a-card"><div class="a-card-title">Course Completions</div><div class="mini-bar-chart" id="mb3"></div></div>
+      </div>
+      <div class="table-card">
+        <div class="table-hd"><div class="table-title">Division Performance</div></div>
+        <table>
+          <thead><tr><th>Division</th><th>Courses</th><th>Students</th><th>Revenue</th><th>Growth</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td><span class="badge badge-eng">⚙️ Engineering</span></td><td>48</td><td style="font-weight:800;color:var(--ink)">20,000+</td><td style="font-weight:800;color:var(--orange)">₹1.28L</td><td><span class="sc-change up">↑ 12%</span></td><td><span class="badge badge-active">Active</span></td></tr>
+            <tr><td><span class="badge badge-sol">🤖 Solutions</span></td><td>32</td><td style="font-weight:800;color:var(--ink)">12,000+</td><td style="font-weight:800;color:var(--orange)">₹0.77L</td><td><span class="sc-change up">↑ 24%</span></td><td><span class="badge badge-active">Active</span></td></tr>
+            <tr><td><span class="badge badge-space">🚀 Space</span></td><td>21</td><td style="font-weight:800;color:var(--ink)">8,000+</td><td style="font-weight:800;color:var(--orange)">₹0.51L</td><td><span class="sc-change up">↑ 18%</span></td><td><span class="badge badge-active">Active</span></td></tr>
+            <tr><td><span class="badge badge-sch">🏫 Schools</span></td><td>19</td><td style="font-weight:800;color:var(--ink)">10,000+</td><td style="font-weight:800;color:var(--orange)">₹0.64L</td><td><span class="sc-change up">↑ 34%</span></td><td><span class="badge badge-active">Active</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- COURSES -->
+    <div class="content-panel" id="panel-courses">
+      <div class="panel-heading"><h2>Course Management</h2><p>Add, edit and manage all courses across divisions.</p></div>
+      <div class="table-card">
+        <div class="table-hd">
+          <div class="table-title">All Courses</div>
+          <div class="table-actions">
+            <input class="search-input" type="text" placeholder="Search courses..." oninput="filterCourses(this)">
+            <button class="add-btn" onclick="openModal('addCourse')">+ Add Course</button>
+          </div>
+        </div>
+        <table><thead><tr><th>Course</th><th>Category</th><th>Instructor</th><th>Students</th><th>Price</th><th>Status</th><th>Actions</th></tr></thead>
+        <tbody id="coursesBody"></tbody></table>
+      </div>
+    </div>
+
+    <!-- USERS -->
+    <div class="content-panel" id="panel-users">
+      <div class="panel-heading"><h2>User Management</h2><p>Manage students, faculty and institution admins.</p></div>
+      <div class="table-card">
+        <div class="table-hd">
+          <div class="table-title">All Users</div>
+          <div class="table-actions">
+            <input class="search-input" type="text" placeholder="Search users...">
+            <button class="add-btn" onclick="showToast('➕ Add user coming soon')">+ Add User</button>
+          </div>
+        </div>
+        <table><thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Division</th><th>Joined</th><th>Status</th><th>Actions</th></tr></thead>
+        <tbody>
+          <tr><td><div style="display:flex;align-items:center;gap:.7rem"><div class="td-thumb" style="background:var(--g-main)">👤</div><span style="font-weight:800;color:var(--ink)">Arjun Kumar</span></div></td><td>arjun@email.com</td><td>Student</td><td><span class="badge badge-eng">Engineering</span></td><td>Jan 2025</td><td><span class="badge badge-active">Active</span></td><td><div class="action-btns"><button class="action-btn" onclick="showToast('✏️ Editing...')">Edit</button><button class="action-btn danger" onclick="showToast('🗑️ Removed')">Remove</button></div></td></tr>
+          <tr><td><div style="display:flex;align-items:center;gap:.7rem"><div class="td-thumb" style="background:var(--g-cool)">👩</div><span style="font-weight:800;color:var(--ink)">Priya Menon</span></div></td><td>priya@email.com</td><td>Faculty</td><td><span class="badge badge-sol">Solutions</span></td><td>Mar 2024</td><td><span class="badge badge-active">Active</span></td><td><div class="action-btns"><button class="action-btn" onclick="showToast('✏️ Editing...')">Edit</button><button class="action-btn danger" onclick="showToast('🗑️ Removed')">Remove</button></div></td></tr>
+          <tr><td><div style="display:flex;align-items:center;gap:.7rem"><div class="td-thumb" style="background:var(--g-green)">👨</div><span style="font-weight:800;color:var(--ink)">Vikram Patel</span></div></td><td>vikram@email.com</td><td>Institution Admin</td><td><span class="badge badge-space">Space</span></td><td>Jul 2024</td><td><span class="badge badge-draft">Pending</span></td><td><div class="action-btns"><button class="action-btn approve" onclick="showToast('✅ Approved!')">Approve</button><button class="action-btn danger" onclick="showToast('🗑️ Removed')">Remove</button></div></td></tr>
+        </tbody></table>
+      </div>
+    </div>
+
+    <!-- COLLABORATORS -->
+    <div class="content-panel" id="panel-collaborators">
+      <div class="panel-heading"><h2>Collaborators &amp; Partners</h2><p>Manage institutional and industry partnerships.</p></div>
+      <div style="display:flex;justify-content:flex-end;margin-bottom:1.2rem">
+        <button class="add-btn" onclick="showToast('➕ Add partner coming soon')">+ Add Partner</button>
+      </div>
+      <div class="collab-grid" id="collabGrid"></div>
+    </div>
+
+    <!-- SETTINGS -->
+    <div class="content-panel" id="panel-settings">
+      <div class="panel-heading"><h2>Settings</h2><p>Manage site configuration and preferences.</p></div>
+      <div class="settings-section">
+        <div class="settings-section-title">🌐 Site Information</div>
+        <p class="settings-section-sub">General details visible to visitors.</p>
+        <div class="settings-grid">
+          <div class="s-field"><label>Site Name</label><input type="text" value="TechM4India"></div>
+          <div class="s-field"><label>Tagline</label><input type="text" value="Building Tomorrow's Innovators"></div>
+          <div class="s-field"><label>Contact Email</label><input type="email" value="hello@techm4.in"></div>
+          <div class="s-field"><label>Phone</label><input type="tel" value="+91 98765 43210"></div>
+          <div class="s-field"><label>Location</label><input type="text" value="Hyderabad, India"></div>
+          <div class="s-field"><label>Founded Year</label><input type="text" value="2020"></div>
+        </div>
+        <button class="modal-save" style="margin-top:1.5rem" onclick="showToast('✅ Site settings saved!')">Save Changes</button>
+      </div>
+      <div class="settings-section">
+        <div class="settings-section-title">🔧 Feature Toggles</div>
+        <p class="settings-section-sub">Enable or disable platform features.</p>
+        <div class="toggle-row"><div><div class="toggle-label">Student Registrations</div><div class="toggle-desc">Allow new students to register</div></div><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
+        <div class="toggle-row"><div><div class="toggle-label">Course Marketplace</div><div class="toggle-desc">Public course marketplace listing</div></div><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
+        <div class="toggle-row"><div><div class="toggle-label">AI Recommendations</div><div class="toggle-desc">Personalised AI-driven suggestions</div></div><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
+        <div class="toggle-row"><div><div class="toggle-label">Maintenance Mode</div><div class="toggle-desc">Show maintenance page to visitors</div></div><label class="toggle"><input type="checkbox"><span class="toggle-slider"></span></label></div>
+      </div>
+      <div class="settings-section">
+        <div class="settings-section-title">🔑 Admin Credentials</div>
+        <p class="settings-section-sub">Update admin login details.</p>
+        <div class="settings-grid">
+          <div class="s-field"><label>Admin Email</label><input type="email" value="admin@techm4.in"></div>
+          <div class="s-field"><label>New Password</label><input type="password" placeholder="Enter new password"></div>
+        </div>
+        <button class="modal-save" style="margin-top:1.5rem" onclick="showToast('🔑 Credentials updated!')">Update Credentials</button>
+      </div>
+    </div>
+
+    <!-- PLACEHOLDERS -->
+    <div class="content-panel" id="panel-divisions"><div class="coming-soon"><div class="cs-icon">🏢</div><h3>Division Management</h3><p>Configure each division's content and settings.</p></div></div>
+    <div class="content-panel" id="panel-labs"><div class="coming-soon"><div class="cs-icon">🔬</div><h3>Labs &amp; Kits</h3><p>Manage lab equipment and space technology inventory.</p></div></div>
+
+  </div>
+</div>
+
+<!-- ADD COURSE MODAL -->
+<div class="modal-bg" id="modal-addCourse" onclick="if(event.target===this)closeModal('addCourse')">
+  <div class="modal">
+    <div class="modal-top"><h3>➕ Add New Course</h3><button class="modal-close" onclick="closeModal('addCourse')">✕</button></div>
+    <div class="modal-body">
+      <div class="m-row">
+        <div class="m-field"><label>Course Title</label><input type="text" id="nTitle" placeholder="e.g. Python for Engineers"></div>
+        <div class="m-field"><label>Category</label><select id="nCat"><option>Artificial Intelligence</option><option>Data Science</option><option>IoT</option><option>Full Stack</option><option>Robotics</option><option>MedTech</option><option>FinTech</option></select></div>
+      </div>
+      <div class="m-row">
+        <div class="m-field"><label>Instructor</label><input type="text" id="nInst" placeholder="Instructor name"></div>
+        <div class="m-field"><label>Price (₹)</label><input type="number" id="nPrice" placeholder="999"></div>
+      </div>
+      <div class="m-field"><label>Description</label><textarea id="nDesc" placeholder="Short description..."></textarea></div>
+      <div class="m-row">
+        <div class="m-field"><label>Status</label><select id="nStatus"><option>Active</option><option>Draft</option></select></div>
+        <div class="m-field"><label>Duration</label><input type="text" placeholder="e.g. 30 hours"></div>
+      </div>
+      <div class="modal-footer">
+        <button class="modal-cancel" onclick="closeModal('addCourse')">Cancel</button>
+        <button class="modal-save" onclick="saveCourse()">Save Course 🎓</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const coursesData=[
+  {emoji:'🤖',title:'Complete AI Engineering Bootcamp',cat:'AI',instructor:'Dr. Priya Sharma',students:12480,price:1299,status:'Active'},
+  {emoji:'📊',title:'Data Science & ML for Engineers',cat:'Data Science',instructor:'Prof. Arjun Nair',students:8920,price:999,status:'Active'},
+  {emoji:'🔌',title:'IoT Systems: Arduino to Cloud',cat:'IoT',instructor:'Rahul Verma',students:5340,price:799,status:'Active'},
+  {emoji:'💻',title:'Full Stack Dev: React & Node.js',cat:'Full Stack',instructor:'Sneha Reddy',students:9210,price:1099,status:'Active'},
+  {emoji:'🦾',title:'Robotics & Automation Masterclass',cat:'Robotics',instructor:'Dr. Kiran Kumar',students:3870,price:899,status:'Draft'},
+  {emoji:'🏥',title:'MedTech Innovation: AI Biomedical',cat:'MedTech',instructor:'Dr. Ananya Singh',students:2140,price:1199,status:'Active'},
+  {emoji:'💰',title:'FinTech & Blockchain Foundations',cat:'FinTech',instructor:'Suresh Babu',students:1920,price:1499,status:'Draft'},
+];
+const collabData=[
+  {icon:'🎓',name:'IIT Hyderabad',type:'Academic Institution',since:'2021',domain:'Engineering'},
+  {icon:'🏛️',name:'JNTUH',type:'University',since:'2021',domain:'Engineering'},
+  {icon:'🔬',name:'ISRO',type:'Government Agency',since:'2022',domain:'Space'},
+  {icon:'💡',name:'NASSCOM',type:'Industry Body',since:'2022',domain:'Technology'},
+  {icon:'🤖',name:'DRDO',type:'Defence Research',since:'2023',domain:'Space'},
+  {icon:'🌐',name:'Microsoft India',type:'Industry Partner',since:'2023',domain:'Technology'},
+  {icon:'☁️',name:'AWS EdTech',type:'Cloud Partner',since:'2023',domain:'Technology'},
+  {icon:'🏢',name:'TCS iON',type:'Industry Partner',since:'2023',domain:'Engineering'},
+  {icon:'🚀',name:'SpaceKidz India',type:'Education Partner',since:'2022',domain:'Space'},
+];
+const catBadge={'AI':'badge-sol','Data Science':'badge-sol','IoT':'badge-eng','Full Stack':'badge-eng','Robotics':'badge-eng','MedTech':'badge-sch','FinTech':'badge-sol'};
+const chartData={
+  '7m':{labels:['Aug','Sep','Oct','Nov','Dec','Jan','Feb'],values:[65,78,72,90,85,110,125]},
+  '12m':{labels:['Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec','Jan','Feb'],values:[40,48,55,60,58,65,78,72,90,85,110,125]},
+};
+
+function adminLogin(){
+  const e=document.getElementById('gateEmail').value.trim();
+  const p=document.getElementById('gatePass').value;
+  if(e==='admin@techm4.in'&&p==='admin123'){
+    document.getElementById('adminGate').classList.add('hidden');
+    initDashboard();
+  } else if(e&&p){
+    showToast('❌ Invalid credentials — try admin@techm4.in / admin123');
+  } else {
+    showToast('⚠️ Please enter credentials');
+  }
+}
+document.getElementById('gatePass').addEventListener('keydown',e=>{if(e.key==='Enter')adminLogin()});
+document.getElementById('gateEmail').addEventListener('keydown',e=>{if(e.key==='Enter')adminLogin()});
+
+function adminLogout(){
+  document.body.style.opacity='0';document.body.style.transition='opacity .4s';
+  setTimeout(()=>window.location.href='index.html',400);
+}
+
+function showPanel(name,el){
+  document.querySelectorAll('.content-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.sidebar-link').forEach(l=>l.classList.remove('active'));
+  document.getElementById('panel-'+name).classList.add('active');
+  el.classList.add('active');
+  const labels={overview:'Dashboard Overview',analytics:'Analytics',courses:'Course Management',divisions:'Divisions',labs:'Labs & Kits',users:'User Management',collaborators:'Collaborators',settings:'Settings'};
+  const t=labels[name]||name;
+  document.getElementById('pageTitle').textContent=t;
+  document.getElementById('bcSpan').textContent=t;
+}
+
+function initDashboard(){
+  // counters
+  document.querySelectorAll('[data-count]').forEach(el=>{
+    const target=+el.dataset.count,isK=el.hasAttribute('data-k'),suffix=el.dataset.suffix||'';
+    let cur=0;const step=target/60;
+    const t=setInterval(()=>{cur=Math.min(cur+step,target);el.textContent=isK?Math.round(cur/1000)+'K+':Math.round(cur)+suffix;if(cur>=target)clearInterval(t)},16);
+  });
+  // revenue
+  let rev=0;const rt=setInterval(()=>{rev=Math.min(rev+54000,3200000);document.getElementById('revenueNum').textContent='₹'+(rev/100000).toFixed(1)+'L';if(rev>=3200000)clearInterval(rt)},16);
+  buildBarChart('7m');
+  renderCourses();
+  renderCollaborators();
+  buildMiniCharts();
+}
+
+function buildBarChart(mode){
+  const{labels,values}=chartData[mode];const max=Math.max(...values);
+  document.getElementById('barChart').innerHTML=labels.map((m,i)=>{
+    const pct=(values[i]/max)*100,last=i===labels.length-1;
+    const bg=last?'var(--g-main)':'linear-gradient(to top,rgba(14,165,233,.3),rgba(14,165,233,.5))';
+    return`<div class="bar-wrap"><div class="bar" style="height:${pct}%;background:${bg};box-shadow:${last?'0 4px 12px rgba(255,107,53,.3)':'none'}"></div><div class="bar-lbl">${m}</div></div>`;
+  }).join('');
+}
+
+function buildMiniCharts(){
+  const sets=[['mb1',[30,45,38,55,48,62,75],'var(--g-main)'],['mb2',[12,18,15,24,20,28,32],'var(--g-cool)'],['mb3',[20,32,28,40,36,48,55],'var(--g-green)']];
+  sets.forEach(([id,d,g])=>{
+    const max=Math.max(...d);
+    document.getElementById(id).innerHTML=d.map((v,i)=>`<div class="mini-bar" style="height:${(v/max)*100}%;background:${g};opacity:${i===d.length-1?1:.6};animation-delay:${i*.06}s"></div>`).join('');
+  });
+}
+
+function renderCourses(){
+  document.getElementById('coursesBody').innerHTML=coursesData.map((c,i)=>`
+    <tr>
+      <td><div style="display:flex;align-items:center;gap:.8rem"><div class="td-thumb" style="background:var(--g-main)">${c.emoji}</div><span style="font-weight:800;color:var(--ink)">${c.title}</span></div></td>
+      <td><span class="badge ${catBadge[c.cat]||'badge-eng'}">${c.cat}</span></td>
+      <td>${c.instructor}</td>
+      <td style="font-weight:800;color:var(--ink)">${c.students.toLocaleString()}</td>
+      <td style="font-weight:800;color:var(--orange)">₹${c.price.toLocaleString()}</td>
+      <td><span class="badge ${c.status==='Active'?'badge-active':'badge-draft'}">${c.status}</span></td>
+      <td><div class="action-btns">
+        <button class="action-btn" onclick="showToast('✏️ Editing...')">Edit</button>
+        <button class="action-btn danger" onclick="removeCourse(${i})">Remove</button>
+      </div></td>
+    </tr>`).join('');
+}
+
+function removeCourse(i){coursesData.splice(i,1);renderCourses();showToast('🗑️ Course removed')}
+
+function filterCourses(inp){
+  const q=inp.value.toLowerCase();
+  document.querySelectorAll('#coursesBody tr').forEach(r=>{r.style.display=r.textContent.toLowerCase().includes(q)?'':'none'});
+}
+
+function renderCollaborators(){
+  const db={Engineering:'badge-eng',Technology:'badge-sol',Space:'badge-space'};
+  document.getElementById('collabGrid').innerHTML=collabData.map(c=>`
+    <div class="collab-card">
+      <div class="cc-top"><span class="cc-icon">${c.icon}</span><span class="badge badge-active">Active</span></div>
+      <div><div class="cc-name">${c.name}</div><div class="cc-type">${c.type} · Since ${c.since}</div></div>
+      <span class="badge ${db[c.domain]||'badge-sch'}">${c.domain}</span>
+      <div class="cc-actions">
+        <button class="action-btn" onclick="showToast('✏️ Editing ${c.name}...')">Edit</button>
+        <button class="action-btn danger" onclick="showToast('🗑️ Removed')">Remove</button>
+      </div>
+    </div>`).join('');
+}
+
+function saveCourse(){
+  const title=document.getElementById('nTitle').value.trim();
+  if(!title){showToast('⚠️ Please enter a title');return}
+  coursesData.unshift({emoji:'📚',title,cat:document.getElementById('nCat').value,instructor:document.getElementById('nInst').value||'TBD',students:0,price:+document.getElementById('nPrice').value||0,status:document.getElementById('nStatus').value});
+  renderCourses();closeModal('addCourse');showToast('✅ Course added!');
+}
+
+function openModal(id){document.getElementById('modal-'+id).classList.add('open')}
+function closeModal(id){document.getElementById('modal-'+id).classList.remove('open')}
+
+function showToast(msg){
+  const t=document.getElementById('toast');t.innerHTML=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3200);
+}
+</script>
+</body>
+</html>

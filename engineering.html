@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TechM4Engineering – Learn. Build. Innovate.</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#FFFBF5;--ink:#1A1A2E;--ink-l:#4A4A6A;
+  --orange:#FF6B35;--pink:#FF4D8D;--purple:#7B2FF7;
+  --blue:#0EA5E9;--green:#22C55E;--yellow:#FFD60A;
+  --border:rgba(26,26,46,.08);--surface:#FFFFFF;
+  --g-main:linear-gradient(135deg,#FF6B35,#FF4D8D);
+  --g-cool:linear-gradient(135deg,#0EA5E9,#7B2FF7);
+}
+html{scroll-behavior:smooth}
+body{font-family:'Quicksand',sans-serif;background:var(--bg);color:var(--ink)}
+
+/* LOADER */
+.loader{position:fixed;inset:0;z-index:9999;background:var(--ink);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1.5rem;transition:opacity .5s,visibility .5s}
+.loader.hidden{opacity:0;visibility:hidden}
+.loader-gear{width:60px;height:60px;border:4px solid rgba(255,255,255,.1);border-top-color:var(--orange);border-radius:50%;animation:spin .8s linear infinite}
+.loader-text{color:#fff;font-family:'Nunito',sans-serif;font-weight:800;font-size:1.1rem;letter-spacing:.1em}
+.loader-dots{display:flex;gap:.6rem}
+.loader-dot{width:10px;height:10px;border-radius:50%;animation:ldBounce .6s ease-in-out infinite alternate}
+.loader-dot:nth-child(1){background:var(--orange);animation-delay:0s}
+.loader-dot:nth-child(2){background:var(--pink);animation-delay:.12s}
+.loader-dot:nth-child(3){background:var(--yellow);animation-delay:.24s}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes ldBounce{from{transform:translateY(0)}to{transform:translateY(-10px)}}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:100;background:var(--surface);border-bottom:2px solid var(--border);padding:0 3rem;display:flex;align-items:center;gap:2rem;height:68px}
+.nav-brand{font-family:'Nunito',sans-serif;font-weight:900;font-size:1.2rem;text-decoration:none;color:var(--ink);white-space:nowrap}
+.nav-brand span{color:var(--orange)}
+.nav-search{flex:1;max-width:480px;display:flex;align-items:center;background:var(--bg);border:1.5px solid var(--border);border-radius:100px;padding:0 1.1rem;gap:.6rem}
+.nav-search input{border:none;background:transparent;outline:none;font-family:'Quicksand',sans-serif;font-size:.9rem;color:var(--ink);width:100%;padding:.6rem 0}
+.nav-links{display:flex;gap:1.5rem;margin-left:auto}
+.nav-links a{text-decoration:none;color:var(--ink-l);font-size:.88rem;font-weight:700;white-space:nowrap;transition:color .2s}
+.nav-links a:hover{color:var(--orange)}
+.nav-btn{background:var(--g-main);color:white;padding:.5rem 1.3rem;border-radius:100px;font-weight:700;font-size:.85rem;text-decoration:none;white-space:nowrap;box-shadow:0 4px 16px rgba(255,107,53,.28);transition:transform .2s,box-shadow .2s}
+.nav-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(255,107,53,.42);color:white!important}
+.back-link{color:var(--ink-l);font-size:.85rem;text-decoration:none;display:flex;align-items:center;gap:.3rem;white-space:nowrap;font-weight:700}
+.back-link:hover{color:var(--orange)}
+
+/* HERO BANNER */
+.hero-banner{background:var(--ink);padding:5rem 3rem;color:white;position:relative;overflow:hidden}
+.hero-banner::before{content:'';position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.04) 1px,transparent 1px);background-size:28px 28px}
+.hero-blob-b{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none}
+.hbb1{width:400px;height:400px;top:-100px;right:-50px;background:rgba(255,77,141,.15)}
+.hbb2{width:300px;height:300px;bottom:-50px;left:20%;background:rgba(123,47,247,.12)}
+.hero-content{max-width:700px;position:relative;z-index:1}
+.hero-badge{background:rgba(255,255,255,.12);backdrop-filter:blur(8px);color:white;font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.35rem .9rem;border-radius:100px;display:inline-block;margin-bottom:1.5rem;border:1px solid rgba(255,255,255,.2)}
+.hero-banner h1{font-family:'Nunito',sans-serif;font-size:clamp(2rem,5vw,3.5rem);font-weight:900;line-height:1.1;margin-bottom:1rem}
+.hero-banner h1 span{background:var(--g-main);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero-banner p{font-size:1.05rem;opacity:.8;line-height:1.7;margin-bottom:2rem}
+.hero-stats{display:flex;gap:2.5rem}
+.h-stat{display:flex;flex-direction:column}
+.h-stat strong{font-family:'Nunito',sans-serif;font-size:1.6rem;font-weight:900;background:var(--g-main);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.h-stat span{font-size:.8rem;opacity:.7}
+
+/* CATEGORIES */
+.categories-bar{background:var(--surface);border-bottom:2px solid var(--border);padding:0 3rem;display:flex;gap:0;overflow-x:auto}
+.cat-tab{padding:1rem 1.2rem;font-size:.85rem;font-weight:700;white-space:nowrap;color:var(--ink-l);cursor:pointer;border-bottom:3px solid transparent;transition:color .2s,border-color .2s;text-decoration:none}
+.cat-tab.active,.cat-tab:hover{color:var(--orange);border-color:var(--orange)}
+
+/* MAIN */
+.main-layout{max-width:1260px;margin:0 auto;padding:2.5rem 3rem}
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem}
+.section-header h2{font-family:'Nunito',sans-serif;font-size:1.4rem;font-weight:800}
+.view-all{color:var(--orange);text-decoration:none;font-size:.85rem;font-weight:700}
+.courses-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem;margin-bottom:3rem}
+
+/* COURSE CARDS */
+.course-card{background:var(--surface);border-radius:16px;border:1.5px solid var(--border);overflow:hidden;cursor:pointer;transition:transform .25s,box-shadow .25s,border-color .25s;text-decoration:none;color:inherit;display:block}
+.course-card:hover{transform:translateY(-5px);box-shadow:0 16px 40px rgba(26,26,46,.1);border-color:rgba(255,107,53,.2)}
+.course-thumb{height:140px;display:flex;align-items:center;justify-content:center;font-size:2.5rem;position:relative;overflow:hidden}
+.thumb-ai{background:linear-gradient(135deg,#FF6B35,#FF4D8D)}
+.thumb-ds{background:linear-gradient(135deg,#FF4D8D,#7B2FF7)}
+.thumb-iot{background:linear-gradient(135deg,#0EA5E9,#22C55E)}
+.thumb-web{background:linear-gradient(135deg,#22C55E,#0EA5E9)}
+.thumb-rob{background:linear-gradient(135deg,#7B2FF7,#FF4D8D)}
+.thumb-med{background:linear-gradient(135deg,#FFD60A,#FF6B35)}
+.thumb-fin{background:linear-gradient(135deg,#0EA5E9,#7B2FF7)}
+.thumb-ml{background:linear-gradient(135deg,#FF6B35,#7B2FF7)}
+.course-body{padding:1rem}
+.course-title{font-family:'Nunito',sans-serif;font-weight:800;font-size:.88rem;line-height:1.4;margin-bottom:.3rem;color:var(--ink)}
+.course-instructor{font-size:.78rem;color:var(--ink-l);margin-bottom:.5rem;font-weight:600}
+.course-rating{display:flex;align-items:center;gap:.3rem;margin-bottom:.4rem}
+.stars{color:var(--yellow);font-size:.75rem}
+.rating-num{font-size:.78rem;font-weight:800;color:var(--orange)}
+.rating-count{font-size:.75rem;color:var(--ink-l)}
+.course-meta{display:flex;gap:.5rem;flex-wrap:wrap}
+.meta-tag{font-size:.68rem;font-weight:700;padding:.2rem .5rem;border-radius:100px;text-transform:uppercase;letter-spacing:.05em}
+.tag-bestseller{background:rgba(255,214,10,.15);color:#92400E}
+.tag-new{background:rgba(34,197,94,.15);color:#166534}
+.tag-hot{background:rgba(255,77,141,.15);color:#9D174D}
+.course-price{font-family:'Nunito',sans-serif;font-weight:900;font-size:1rem;margin-top:.6rem;color:var(--ink)}
+.course-price-old{text-decoration:line-through;color:var(--ink-l);font-weight:600;font-size:.8rem;margin-left:.3rem}
+
+/* CART SIDEBAR */
+.cart-overlay{position:fixed;inset:0;background:rgba(26,26,46,.5);z-index:200;opacity:0;pointer-events:none;transition:opacity .3s}
+.cart-overlay.open{opacity:1;pointer-events:all}
+.cart-sidebar{position:fixed;right:0;top:0;bottom:0;width:380px;background:var(--surface);z-index:201;transform:translateX(100%);transition:transform .35s cubic-bezier(.76,0,.24,1);display:flex;flex-direction:column;box-shadow:-8px 0 48px rgba(26,26,46,.15)}
+.cart-sidebar.open{transform:translateX(0)}
+.cart-header{padding:1.5rem;border-bottom:2px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.cart-header h3{font-family:'Nunito',sans-serif;font-weight:800;font-size:1.1rem}
+.cart-close{background:none;border:none;font-size:1.3rem;cursor:pointer;color:var(--ink-l)}
+.cart-items{flex:1;overflow-y:auto;padding:1rem}
+.cart-item{display:flex;gap:.8rem;padding:.8rem 0;border-bottom:1px solid var(--border)}
+.cart-item-thumb{width:56px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0}
+.cart-item-title{font-size:.82rem;font-weight:700;color:var(--ink);margin-bottom:.2rem}
+.cart-item-price{font-size:.85rem;font-weight:800;color:var(--orange)}
+.cart-remove{background:none;border:none;cursor:pointer;color:var(--pink);font-size:.75rem;font-weight:700}
+.cart-footer{padding:1.5rem;border-top:2px solid var(--border)}
+.cart-total{display:flex;justify-content:space-between;margin-bottom:1rem}
+.cart-total span{font-weight:700}
+.cart-total strong{font-family:'Nunito',sans-serif;font-weight:900;font-size:1.2rem;color:var(--orange)}
+.checkout-btn{width:100%;background:var(--g-main);color:white;border:none;border-radius:100px;padding:.9rem;font-family:'Nunito',sans-serif;font-weight:800;font-size:.95rem;cursor:pointer;box-shadow:0 4px 16px rgba(255,107,53,.3);transition:transform .2s}
+.checkout-btn:hover{transform:translateY(-2px)}
+.cart-empty{text-align:center;padding:3rem 1rem;color:var(--ink-l)}
+.cart-empty .empty-icon{font-size:3rem;margin-bottom:1rem}
+.cart-count{background:var(--pink);color:white;font-size:.7rem;font-weight:800;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;position:absolute;top:-4px;right:-4px}
+.cart-btn-wrap{position:relative;display:inline-flex}
+
+/* LEARNING PATHS */
+.path-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-bottom:3rem}
+.path-card{background:var(--surface);border-radius:16px;padding:1.5rem;border:1.5px solid var(--border);cursor:pointer;transition:transform .25s,box-shadow .25s,border-color .25s;text-decoration:none;color:inherit}
+.path-card:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(26,26,46,.08);border-color:rgba(255,107,53,.2)}
+.path-icon{font-size:1.8rem;margin-bottom:.8rem}
+.path-label{font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--orange);margin-bottom:.3rem}
+.path-title{font-family:'Nunito',sans-serif;font-weight:800;margin-bottom:.5rem}
+.path-desc{font-size:.82rem;color:var(--ink-l);line-height:1.6}
+.path-courses{font-size:.78rem;font-weight:700;color:var(--purple);margin-top:.8rem}
+
+/* MODAL */
+.modal-bg{position:fixed;inset:0;background:rgba(26,26,46,.6);z-index:300;display:none;align-items:center;justify-content:center;padding:2rem}
+.modal-bg.open{display:flex}
+.modal{background:var(--surface);border-radius:20px;width:100%;max-width:700px;overflow:hidden;animation:modalIn .3s ease}
+@keyframes modalIn{from{opacity:0;transform:scale(.95) translateY(20px)}to{opacity:1;transform:none}}
+.modal-header{padding:0;position:relative}
+.modal-thumb{height:180px;display:flex;align-items:center;justify-content:center;font-size:4rem}
+.modal-close{position:absolute;top:1rem;right:1rem;background:rgba(255,255,255,.9);border:none;border-radius:50%;width:34px;height:34px;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center}
+.modal-body{padding:1.5rem 2rem 2rem}
+.modal-tag{font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--orange);margin-bottom:.5rem}
+.modal-title{font-family:'Nunito',sans-serif;font-size:1.4rem;font-weight:900;margin-bottom:.5rem}
+.modal-instructor{font-size:.85rem;color:var(--ink-l);margin-bottom:1rem;font-weight:600}
+.modal-desc{font-size:.9rem;color:var(--ink-l);line-height:1.7;margin-bottom:1.5rem}
+.modal-includes{margin-bottom:1.5rem}
+.modal-includes h4{font-weight:800;font-size:.9rem;margin-bottom:.6rem}
+.includes-list{display:grid;grid-template-columns:1fr 1fr;gap:.4rem}
+.include-item{font-size:.82rem;color:var(--ink-l);display:flex;gap:.4rem}
+.modal-footer{display:flex;gap:1rem;align-items:center}
+.modal-price{font-family:'Nunito',sans-serif;font-size:1.5rem;font-weight:900;color:var(--ink)}
+.add-to-cart-btn{flex:1;background:var(--g-main);color:white;border:none;border-radius:100px;padding:.85rem;font-family:'Nunito',sans-serif;font-weight:800;font-size:.95rem;cursor:pointer;box-shadow:0 4px 16px rgba(255,107,53,.28);transition:transform .2s}
+.add-to-cart-btn:hover{transform:translateY(-2px)}
+.wishlist-btn{background:var(--bg);border:1.5px solid var(--border);border-radius:100px;padding:.85rem 1.2rem;cursor:pointer;font-size:1.1rem;transition:border-color .2s}
+.wishlist-btn:hover{border-color:var(--pink)}
+
+/* TOAST */
+.toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(100px);background:var(--ink);color:white;padding:.8rem 1.5rem;border-radius:100px;font-size:.88rem;font-weight:700;transition:transform .4s cubic-bezier(.34,1.56,.64,1);z-index:400;white-space:nowrap}
+.toast.show{transform:translateX(-50%) translateY(0)}
+
+/* ADMIN */
+.admin-modal-bg{position:fixed;inset:0;background:rgba(26,26,46,.65);z-index:500;display:none;align-items:center;justify-content:center}
+.admin-modal-bg.open{display:flex}
+.admin-modal{background:var(--surface);border-radius:20px;width:100%;max-width:420px;padding:2.5rem;animation:modalIn .3s ease}
+.admin-modal h2{font-family:'Nunito',sans-serif;font-size:1.5rem;font-weight:900;margin-bottom:.4rem}
+.admin-modal p{color:var(--ink-l);font-size:.88rem;margin-bottom:1.5rem;font-weight:600}
+.form-group{margin-bottom:1rem}
+.form-group label{display:block;font-size:.82rem;font-weight:800;color:var(--ink);margin-bottom:.4rem}
+.form-group input{width:100%;border:1.5px solid var(--border);border-radius:10px;padding:.7rem 1rem;font-family:'Quicksand',sans-serif;font-size:.9rem;outline:none;transition:border-color .2s;background:var(--bg)}
+.form-group input:focus{border-color:var(--orange)}
+.admin-submit{width:100%;background:var(--g-main);color:white;border:none;border-radius:100px;padding:.85rem;font-family:'Nunito',sans-serif;font-weight:800;font-size:.95rem;cursor:pointer;margin-top:.5rem;box-shadow:0 4px 16px rgba(255,107,53,.28);transition:transform .2s}
+.admin-submit:hover{transform:translateY(-2px)}
+.admin-panel{background:var(--ink);color:white;padding:1rem 3rem;display:none}
+.admin-panel.visible{display:flex;align-items:center;gap:1rem}
+.admin-panel span{font-size:.85rem;opacity:.7}
+.admin-action{background:rgba(255,255,255,.1);color:white;border:1px solid rgba(255,255,255,.2);border-radius:100px;padding:.4rem .9rem;font-size:.8rem;font-weight:700;cursor:pointer;transition:background .2s}
+.admin-action:hover{background:rgba(255,107,53,.3)}
+.admin-action.danger{background:rgba(255,77,141,.2);border-color:rgba(255,77,141,.4)}
+
+footer{background:var(--ink);color:white;padding:2.5rem 3rem;display:flex;align-items:center;justify-content:space-between}
+footer .brand{font-family:'Nunito',sans-serif;font-weight:900;font-size:1.1rem}
+footer .brand span{color:var(--orange)}
+footer p{font-size:.8rem;opacity:.5}
+footer a{color:rgba(255,255,255,.5);text-decoration:none;font-size:.8rem;font-weight:600;transition:color .2s}
+footer a:hover{color:var(--orange)}
+
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s,transform .7s}
+.reveal.visible{opacity:1;transform:none}
+@media(max-width:1024px){.courses-row{grid-template-columns:repeat(2,1fr)}.path-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:640px){nav{padding:0 1rem}.main-layout{padding:1.5rem}.courses-row{grid-template-columns:1fr}.path-grid{grid-template-columns:1fr}.cart-sidebar{width:100%}}
+</style>
+</head>
+<body>
+<div class="loader" id="loader">
+  <div class="loader-gear"></div>
+  <div class="loader-text">TECHM4 ENGINEERING</div>
+  <div class="loader-dots"><div class="loader-dot"></div><div class="loader-dot"></div><div class="loader-dot"></div></div>
+</div>
+<div class="admin-panel" id="adminPanel">
+  <span>🔒 Admin Mode Active</span>
+  <button class="admin-action" onclick="showToast('Add Course panel coming soon')">+ Add Course</button>
+  <button class="admin-action" onclick="showToast('Edit mode activated')">✏️ Edit Course</button>
+  <button class="admin-action danger" onclick="showToast('Course removed')">🗑 Remove Course</button>
+  <button class="admin-action" onclick="logoutAdmin()" style="margin-left:auto">Logout</button>
+</div>
+<nav>
+  <a href="index.html" class="back-link">← TechM4</a>
+  <a href="engineering.html" class="nav-brand">TechM4<span>Engineering</span></a>
+  <div class="nav-search">
+    <span>🔍</span>
+    <input type="text" placeholder="Search courses, skills, or instructors..." oninput="filterCourses(this.value)">
+  </div>
+  <div class="nav-links">
+    <a href="#paths">Learning Paths</a>
+    <a href="#" onclick="openUserLogin()">Log In</a>
+    <div class="cart-btn-wrap">
+      <a href="#" class="nav-btn" onclick="toggleCart();return false;" style="position:relative">
+        🛒 Cart <span class="cart-count" id="cartCount" style="display:none">0</span>
+      </a>
+    </div>
+    <a href="#" style="background:transparent;color:var(--ink);border:1.5px solid var(--border);padding:.5rem 1.3rem;border-radius:100px;font-weight:700;font-size:.85rem;text-decoration:none" onclick="openAdminLogin();return false;">Admin</a>
+  </div>
+</nav>
+<div class="hero-banner">
+  <div class="hero-blob-b hbb1"></div><div class="hero-blob-b hbb2"></div>
+  <div class="hero-content">
+    <span class="hero-badge">TechM4India · Engineering Division</span>
+    <h1>Build <span>Innovation-Driven</span> Engineering Skills</h1>
+    <p>Access cutting-edge courses in AI, IoT, Full Stack, Robotics, and more — designed for India's future engineers.</p>
+    <div class="hero-stats">
+      <div class="h-stat"><strong>120+</strong><span>Expert Courses</span></div>
+      <div class="h-stat"><strong>50K+</strong><span>Students</span></div>
+      <div class="h-stat"><strong>4.7★</strong><span>Avg Rating</span></div>
+    </div>
+  </div>
+</div>
+<div class="categories-bar">
+  <a class="cat-tab active" onclick="filterCategory('all',this)">All Courses</a>
+  <a class="cat-tab" onclick="filterCategory('ai',this)">Artificial Intelligence</a>
+  <a class="cat-tab" onclick="filterCategory('ds',this)">Data Science</a>
+  <a class="cat-tab" onclick="filterCategory('iot',this)">IoT & Embedded</a>
+  <a class="cat-tab" onclick="filterCategory('web',this)">Full Stack Dev</a>
+  <a class="cat-tab" onclick="filterCategory('rob',this)">Robotics</a>
+  <a class="cat-tab" onclick="filterCategory('med',this)">MedTech</a>
+  <a class="cat-tab" onclick="filterCategory('fin',this)">FinTech</a>
+</div>
+<div class="main-layout">
+  <div class="section-header"><h2>Featured Courses</h2><a href="#" class="view-all">View all →</a></div>
+  <div class="courses-row" id="coursesRow">
+    <div class="course-card" onclick="openCourse(0)" data-cat="ai"><div class="course-thumb thumb-ai">🤖</div><div class="course-body"><div class="course-title">Complete Artificial Intelligence Engineering Bootcamp</div><div class="course-instructor">Dr. Priya Sharma · TechM4 Faculty</div><div class="course-rating"><span class="stars">★★★★★</span><span class="rating-num">4.9</span><span class="rating-count">(12,480)</span></div><div class="course-meta"><span class="meta-tag tag-bestseller">Bestseller</span></div><div class="course-price">₹1,299 <span class="course-price-old">₹6,499</span></div></div></div>
+    <div class="course-card" onclick="openCourse(1)" data-cat="ds"><div class="course-thumb thumb-ds">📊</div><div class="course-body"><div class="course-title">Data Science & Machine Learning for Engineers</div><div class="course-instructor">Prof. Arjun Nair · IIT Collaborator</div><div class="course-rating"><span class="stars">★★★★★</span><span class="rating-num">4.8</span><span class="rating-count">(8,920)</span></div><div class="course-meta"><span class="meta-tag tag-bestseller">Bestseller</span></div><div class="course-price">₹999 <span class="course-price-old">₹5,999</span></div></div></div>
+    <div class="course-card" onclick="openCourse(2)" data-cat="iot"><div class="course-thumb thumb-iot">🔌</div><div class="course-body"><div class="course-title">IoT Systems Development: From Arduino to Cloud</div><div class="course-instructor">Rahul Verma · IoT Specialist</div><div class="course-rating"><span class="stars">★★★★☆</span><span class="rating-num">4.7</span><span class="rating-count">(5,340)</span></div><div class="course-meta"><span class="meta-tag tag-new">New</span></div><div class="course-price">₹799 <span class="course-price-old">₹4,999</span></div></div></div>
+    <div class="course-card" onclick="openCourse(3)" data-cat="web"><div class="course-thumb thumb-web">💻</div><div class="course-body"><div class="course-title">Full Stack Development: React, Node.js & MongoDB</div><div class="course-instructor">Sneha Reddy · Senior Engineer</div><div class="course-rating"><span class="stars">★★★★★</span><span class="rating-num">4.8</span><span class="rating-count">(9,210)</span></div><div class="course-meta"><span class="meta-tag tag-hot">🔥 Hot</span></div><div class="course-price">₹1,099 <span class="course-price-old">₹5,499</span></div></div></div>
+    <div class="course-card" onclick="openCourse(4)" data-cat="rob"><div class="course-thumb thumb-rob">🦾</div><div class="course-body"><div class="course-title">Robotics & Automation Engineering Masterclass</div><div class="course-instructor">Dr. Kiran Kumar · Robotics Lab Head</div><div class="course-rating"><span class="stars">★★★★☆</span><span class="rating-num">4.6</span><span class="rating-count">(3,870)</span></div><div class="course-meta"><span class="meta-tag tag-new">New</span></div><div class="course-price">₹899 <span class="course-price-old">₹4,799</span></div></div></div>
+    <div class="course-card" onclick="openCourse(5)" data-cat="med"><div class="course-thumb thumb-med">🏥</div><div class="course-body"><div class="course-title">MedTech Innovation: Biomedical Devices & AI</div><div class="course-instructor">Dr. Ananya Singh · MedTech Researcher</div><div class="course-rating"><span class="stars">★★★★★</span><span class="rating-num">4.9</span><span class="rating-count">(2,140)</span></div><div class="course-meta"><span class="meta-tag tag-bestseller">Bestseller</span></div><div class="course-price">₹1,199 <span class="course-price-old">₹6,199</span></div></div></div>
+    <div class="course-card" onclick="openCourse(6)" data-cat="fin"><div class="course-thumb thumb-fin">💰</div><div class="course-body"><div class="course-title">FinTech Engineering: Blockchain & Digital Payments</div><div class="course-instructor">Vikram Mehta · FinTech Expert</div><div class="course-rating"><span class="stars">★★★★☆</span><span class="rating-num">4.5</span><span class="rating-count">(1,980)</span></div><div class="course-meta"><span class="meta-tag tag-hot">🔥 Hot</span></div><div class="course-price">₹949 <span class="course-price-old">₹4,999</span></div></div></div>
+    <div class="course-card" onclick="openCourse(7)" data-cat="ds"><div class="course-thumb thumb-ml">🧠</div><div class="course-body"><div class="course-title">Deep Learning & Neural Networks from Scratch</div><div class="course-instructor">Prof. Suresh Rao · ML Engineer</div><div class="course-rating"><span class="stars">★★★★★</span><span class="rating-num">4.7</span><span class="rating-count">(6,730)</span></div><div class="course-meta"><span class="meta-tag tag-bestseller">Bestseller</span></div><div class="course-price">₹1,099 <span class="course-price-old">₹5,799</span></div></div></div>
+  </div>
+  <div class="section-header" id="paths"><h2>Learning Paths</h2><a href="#" class="view-all">View all paths →</a></div>
+  <div class="path-grid">
+    <div class="path-card"><div class="path-icon">🤖</div><p class="path-label">Role-Based Path</p><h3 class="path-title">AI Engineer</h3><p class="path-desc">Master AI fundamentals, machine learning, deep learning, and deployment — become a job-ready AI engineer.</p><p class="path-courses">8 courses · 240 hours</p></div>
+    <div class="path-card"><div class="path-icon">📊</div><p class="path-label">Role-Based Path</p><h3 class="path-title">Data Scientist</h3><p class="path-desc">From Python basics to advanced predictive analytics and real-world data engineering projects.</p><p class="path-courses">6 courses · 180 hours</p></div>
+    <div class="path-card"><div class="path-icon">🔌</div><p class="path-label">Role-Based Path</p><h3 class="path-title">IoT Systems Developer</h3><p class="path-desc">Design and build connected smart systems from edge to cloud with real hardware projects.</p><p class="path-courses">5 courses · 150 hours</p></div>
+  </div>
+</div>
+<!-- CART -->
+<div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+<div class="cart-sidebar" id="cartSidebar">
+  <div class="cart-header"><h3>🛒 Shopping Cart</h3><button class="cart-close" onclick="toggleCart()">✕</button></div>
+  <div class="cart-items" id="cartItems"><div class="cart-empty"><div class="empty-icon">🛒</div><p>Your cart is empty.<br>Browse courses and start learning!</p></div></div>
+  <div class="cart-footer" id="cartFooter" style="display:none">
+    <div class="cart-total"><span>Total</span><strong id="cartTotal">₹0</strong></div>
+    <button class="checkout-btn" onclick="checkout()">Proceed to Checkout →</button>
+  </div>
+</div>
+<!-- MODAL -->
+<div class="modal-bg" id="modalBg" onclick="if(event.target===this)closeModal()">
+  <div class="modal" id="courseModal">
+    <div class="modal-header"><div class="modal-thumb" id="modalThumb"></div><button class="modal-close" onclick="closeModal()">✕</button></div>
+    <div class="modal-body">
+      <p class="modal-tag" id="modalTag"></p><h2 class="modal-title" id="modalTitle"></h2>
+      <p class="modal-instructor" id="modalInstructor"></p><p class="modal-desc" id="modalDesc"></p>
+      <div class="modal-includes"><h4>What's included</h4><div class="includes-list" id="modalIncludes"></div></div>
+      <div class="modal-footer"><div class="modal-price" id="modalPrice"></div><button class="wishlist-btn">❤️</button><button class="add-to-cart-btn" onclick="addToCart()">Add to Cart</button></div>
+    </div>
+  </div>
+</div>
+<!-- ADMIN LOGIN -->
+<div class="admin-modal-bg" id="adminModalBg" onclick="if(event.target===this)closeAdminLogin()">
+  <div class="admin-modal"><h2>Admin Login</h2><p>Access the course management dashboard</p>
+    <div class="form-group"><label>Email</label><input type="email" id="adminEmail" placeholder="admin@techm4.in"></div>
+    <div class="form-group"><label>Password</label><input type="password" id="adminPass" placeholder="••••••••"></div>
+    <button class="admin-submit" onclick="loginAdmin()">Login to Dashboard</button>
+  </div>
+</div>
+<!-- USER LOGIN -->
+<div class="admin-modal-bg" id="userModalBg" onclick="if(event.target===this)closeUserLogin()">
+  <div class="admin-modal"><h2>Student Login</h2><p>Access your courses and learning dashboard</p>
+    <div class="form-group"><label>Email</label><input type="email" placeholder="you@email.com"></div>
+    <div class="form-group"><label>Password</label><input type="password" placeholder="••••••••"></div>
+    <button class="admin-submit" onclick="closeUserLogin();showToast('Welcome back! 👋')">Log In</button>
+    <p style="text-align:center;margin-top:1rem;font-size:.82rem;color:var(--ink-l)">Don't have an account? <a href="#" style="color:var(--orange);font-weight:700">Sign up free</a></p>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+<footer>
+  <div class="brand">TechM4<span>Engineering</span></div>
+  <p>© 2025 TechM4India · An Innovation Vertical of TechM4India</p>
+  <a href="index.html">← Back to TechM4</a>
+</footer>
+<script>
+const courses=[
+  {title:'Complete Artificial Intelligence Engineering Bootcamp',instructor:'Dr. Priya Sharma',tag:'Artificial Intelligence',price:'₹1,299',thumbClass:'thumb-ai',icon:'🤖',desc:'Master AI from fundamentals to advanced neural architectures. Build real AI products with Python, TensorFlow, and deploy on cloud platforms.',includes:['40+ hours of video','Hands-on projects','Certificate of completion','Lifetime access','Industry mentorship','6 real-world case studies']},
+  {title:'Data Science & Machine Learning for Engineers',instructor:'Prof. Arjun Nair',tag:'Data Science',price:'₹999',thumbClass:'thumb-ds',icon:'📊',desc:'Go from zero to data scientist. Learn statistical analysis, machine learning algorithms, and build predictive models for real engineering datasets.',includes:['30+ hours of video','Python notebooks','Certificate','Lifetime access','Industry datasets','5 capstone projects']},
+  {title:'IoT Systems Development: From Arduino to Cloud',instructor:'Rahul Verma',tag:'IoT & Embedded',price:'₹799',thumbClass:'thumb-iot',icon:'🔌',desc:'Build complete IoT solutions from hardware to cloud. Work with Arduino, Raspberry Pi, MQTT, and AWS IoT.',includes:['25 hours of video','Hardware projects','Certificate','Cloud deployment','PCB design basics','IoT security module']},
+  {title:'Full Stack Development: React, Node.js & MongoDB',instructor:'Sneha Reddy',tag:'Full Stack Development',price:'₹1,099',thumbClass:'thumb-web',icon:'💻',desc:'Build complete web applications from frontend to backend. Master React, Node.js, MongoDB, REST APIs, and deploy on modern cloud platforms.',includes:['45 hours of video','8 full projects','Certificate','GitHub portfolio','DevOps basics','Job prep kit']},
+  {title:'Robotics & Automation Engineering Masterclass',instructor:'Dr. Kiran Kumar',tag:'Robotics',price:'₹899',thumbClass:'thumb-rob',icon:'🦾',desc:'Design, build, and program autonomous robots. Learn ROS, computer vision integration, and advanced automation systems.',includes:['35 hours of video','Simulation labs','Certificate','ROS tutorials','CV integration','4 robot builds']},
+  {title:'MedTech Innovation: Biomedical Devices & AI',instructor:'Dr. Ananya Singh',tag:'MedTech',price:'₹1,199',thumbClass:'thumb-med',icon:'🏥',desc:'Explore the intersection of medicine and technology. Design biomedical devices, apply AI for diagnostics.',includes:['28 hours of video','Case studies','Certificate','Device prototyping','Regulatory insights','AI diagnostics']},
+  {title:'FinTech Engineering: Blockchain & Digital Payments',instructor:'Vikram Mehta',tag:'FinTech',price:'₹949',thumbClass:'thumb-fin',icon:'💰',desc:'Build the future of financial technology. Learn blockchain development, smart contracts, payment gateway integration.',includes:['22 hours of video','Blockchain projects','Certificate','Smart contracts','API integration','Compliance guide']},
+  {title:'Deep Learning & Neural Networks from Scratch',instructor:'Prof. Suresh Rao',tag:'Data Science',price:'₹1,099',thumbClass:'thumb-ml',icon:'🧠',desc:'Master deep learning from mathematical foundations to production models. Build CNNs, RNNs, transformers.',includes:['38 hours of video','GPU labs access','Certificate','Research papers','Published models','6 DL projects']},
+];
+let cart=[],currentCourse=null,adminLoggedIn=false;
+window.addEventListener('load',()=>setTimeout(()=>document.getElementById('loader').classList.add('hidden'),1500));
+function openCourse(i){
+  const c=courses[i];currentCourse=c;
+  document.getElementById('modalThumb').className='modal-thumb '+c.thumbClass;
+  document.getElementById('modalThumb').textContent=c.icon;
+  document.getElementById('modalTag').textContent=c.tag;
+  document.getElementById('modalTitle').textContent=c.title;
+  document.getElementById('modalInstructor').textContent='by '+c.instructor;
+  document.getElementById('modalDesc').textContent=c.desc;
+  document.getElementById('modalPrice').textContent=c.price;
+  document.getElementById('modalIncludes').innerHTML=c.includes.map(x=>`<div class="include-item"><span>✓</span>${x}</div>`).join('');
+  document.getElementById('modalBg').classList.add('open');
+}
+function closeModal(){document.getElementById('modalBg').classList.remove('open')}
+function addToCart(){
+  if(!currentCourse)return;
+  if(cart.find(c=>c.title===currentCourse.title)){showToast('Already in cart!');return}
+  cart.push(currentCourse);updateCart();closeModal();showToast('✅ Added to cart!');
+}
+function toggleCart(){document.getElementById('cartOverlay').classList.toggle('open');document.getElementById('cartSidebar').classList.toggle('open')}
+function updateCart(){
+  const n=cart.length,el=document.getElementById('cartCount');
+  el.textContent=n;el.style.display=n>0?'flex':'none';
+  const items=document.getElementById('cartItems'),footer=document.getElementById('cartFooter');
+  if(n===0){items.innerHTML='<div class="cart-empty"><div class="empty-icon">🛒</div><p>Your cart is empty.</p></div>';footer.style.display='none';return}
+  items.innerHTML=cart.map((c,i)=>`<div class="cart-item"><div class="cart-item-thumb ${c.thumbClass}">${c.icon}</div><div class="cart-item-info"><div class="cart-item-title">${c.title}</div><div class="cart-item-price">${c.price}</div></div><button class="cart-remove" onclick="removeFromCart(${i})">✕</button></div>`).join('');
+  const total=cart.reduce((s,c)=>s+parseInt(c.price.replace('₹','').replace(',','')),0);
+  document.getElementById('cartTotal').textContent='₹'+total.toLocaleString('en-IN');
+  footer.style.display='block';
+}
+function removeFromCart(i){cart.splice(i,1);updateCart();showToast('Removed from cart')}
+function checkout(){showToast('🎉 Proceeding to checkout...');toggleCart()}
+function filterCategory(cat,el){
+  document.querySelectorAll('.cat-tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');
+  document.querySelectorAll('.course-card').forEach(c=>{c.style.display=(cat==='all'||c.dataset.cat===cat)?'block':'none'});
+}
+function filterCourses(v){
+  const q=v.toLowerCase();
+  document.querySelectorAll('.course-card').forEach((c,i)=>{
+    const m=courses[i].title.toLowerCase().includes(q)||courses[i].tag.toLowerCase().includes(q);
+    c.style.display=m?'block':'none';
+  });
+}
+function openAdminLogin(){document.getElementById('adminModalBg').classList.add('open')}
+function closeAdminLogin(){document.getElementById('adminModalBg').classList.remove('open')}
+function loginAdmin(){
+  const e=document.getElementById('adminEmail').value,p=document.getElementById('adminPass').value;
+  if(e&&p){adminLoggedIn=true;closeAdminLogin();document.getElementById('adminPanel').classList.add('visible');showToast('✅ Admin logged in!')}
+  else showToast('Please enter credentials');
+}
+function logoutAdmin(){adminLoggedIn=false;document.getElementById('adminPanel').classList.remove('visible');showToast('Logged out')}
+function openUserLogin(){document.getElementById('userModalBg').classList.add('open')}
+function closeUserLogin(){document.getElementById('userModalBg').classList.remove('open')}
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2800)}
+document.querySelector('.back-link').addEventListener('click',e=>{
+  e.preventDefault();document.body.style.opacity='0';document.body.style.transition='opacity .4s';
+  setTimeout(()=>window.location.href='index.html',400);
+});
+</script>
+</body>
+</html>

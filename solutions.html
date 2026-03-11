@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TechM4Solutions – Engineering Intelligent Platforms</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#FFFBF5;--ink:#1A1A2E;--ink-l:#4A4A6A;
+  --orange:#FF6B35;--pink:#FF4D8D;--purple:#7B2FF7;
+  --blue:#0EA5E9;--green:#22C55E;--yellow:#FFD60A;
+  --border:rgba(26,26,46,.08);--surface:#FFFFFF;
+  --g-main:linear-gradient(135deg,#FF6B35,#FF4D8D);
+  --g-cool:linear-gradient(135deg,#0EA5E9,#7B2FF7);
+}
+html{scroll-behavior:smooth}
+body{font-family:'Quicksand',sans-serif;background:var(--bg);color:var(--ink);overflow-x:hidden}
+
+/* LOADER */
+.loader{position:fixed;inset:0;z-index:9999;background:var(--ink);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:2rem;transition:opacity .6s,visibility .6s}
+.loader.hidden{opacity:0;visibility:hidden}
+.loader-ring{width:64px;height:64px;position:relative}
+.loader-ring::before,.loader-ring::after{content:'';position:absolute;inset:0;border-radius:50%;border:2px solid transparent}
+.loader-ring::before{border-top-color:var(--orange);animation:spin 1s linear infinite}
+.loader-ring::after{border-bottom-color:var(--pink);animation:spin 1.4s linear infinite reverse;inset:8px}
+.loader-icon{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:1.4rem}
+.loader-label{font-family:'Nunito',sans-serif;font-weight:800;font-size:.75rem;color:rgba(255,255,255,.6);letter-spacing:.2em}
+.loader-progress{width:200px;height:3px;background:rgba(255,255,255,.1);border-radius:3px;overflow:hidden}
+.loader-bar{height:100%;background:var(--g-main);border-radius:3px;width:0;animation:loadBar 1.4s ease forwards}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes loadBar{to{width:100%}}
+
+/* Grid BG */
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background-image:linear-gradient(rgba(255,107,53,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,107,53,.025) 1px,transparent 1px);background-size:48px 48px}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 3rem;height:68px;display:flex;align-items:center;gap:2rem;background:rgba(255,251,245,.88);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.logo{font-family:'Nunito',sans-serif;font-weight:900;font-size:1.15rem;text-decoration:none;color:var(--ink)}
+.logo-accent{background:var(--g-main);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.nav-center{display:flex;gap:2rem;margin:0 auto}
+.nav-center a{text-decoration:none;color:var(--ink-l);font-size:.88rem;font-weight:700;transition:color .2s}
+.nav-center a:hover{color:var(--orange)}
+.nav-cta{background:var(--g-main);color:#fff;border:none;border-radius:100px;padding:.5rem 1.3rem;font-family:'Nunito',sans-serif;font-size:.85rem;font-weight:800;cursor:pointer;text-decoration:none;box-shadow:0 4px 16px rgba(255,107,53,.28);transition:transform .2s}
+.nav-cta:hover{transform:translateY(-2px)}
+.back-link{color:var(--ink-l);font-size:.85rem;text-decoration:none;white-space:nowrap;font-weight:700}
+.back-link:hover{color:var(--orange)}
+
+/* HERO */
+.hero{min-height:100vh;position:relative;display:flex;align-items:center;justify-content:center;padding:8rem 3rem 4rem;text-align:center;overflow:hidden}
+.hero-blob-h{position:absolute;border-radius:50%;filter:blur(90px);pointer-events:none;animation:blobDrift ease-in-out infinite alternate}
+.hbh1{width:600px;height:500px;background:rgba(255,107,53,.08);top:10%;left:20%;animation-duration:9s}
+.hbh2{width:400px;height:400px;background:rgba(255,77,141,.07);top:40%;right:10%;animation-duration:11s;animation-delay:-4s}
+.hbh3{width:300px;height:300px;background:rgba(123,47,247,.06);bottom:15%;left:40%;animation-duration:7s;animation-delay:-2s}
+@keyframes blobDrift{from{transform:scale(1) translate(0,0)}to{transform:scale(1.1) translate(25px,18px)}}
+.hero-content{position:relative;z-index:1;max-width:800px}
+.hero-badge{display:inline-flex;align-items:center;gap:.5rem;background:var(--surface);border:1.5px solid var(--border);border-radius:100px;padding:.35rem 1rem;font-size:.75rem;font-weight:700;color:var(--ink-l);margin-bottom:2rem;animation:fadeUp .8s .3s both}
+.badge-dot{width:7px;height:7px;border-radius:50%;background:var(--green);animation:dotBlink 2s infinite}
+@keyframes dotBlink{0%,100%{opacity:1}50%{opacity:.3}}
+h1{font-family:'Nunito',sans-serif;font-size:clamp(2.5rem,6vw,5.5rem);font-weight:900;line-height:1.05;margin-bottom:1.5rem;letter-spacing:-.02em;animation:fadeUp .8s .5s both}
+.h1-grad{background:var(--g-main);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero-sub{font-size:1.05rem;color:var(--ink-l);line-height:1.8;max-width:580px;margin:0 auto 2.5rem;animation:fadeUp .8s .7s both}
+.hero-actions{display:flex;gap:1rem;justify-content:center;animation:fadeUp .8s .9s both}
+.btn-glow{background:var(--g-main);color:white;padding:.85rem 2rem;border-radius:100px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.95rem;text-decoration:none;border:none;cursor:pointer;position:relative;overflow:hidden;transition:transform .2s,box-shadow .2s;box-shadow:0 6px 28px rgba(255,107,53,.3)}
+.btn-glow:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(255,107,53,.48)}
+.btn-outline{background:transparent;color:var(--ink);padding:.85rem 2rem;border-radius:100px;border:1.5px solid var(--border);font-family:'Nunito',sans-serif;font-weight:700;font-size:.95rem;text-decoration:none;transition:border-color .2s,transform .2s}
+.btn-outline:hover{border-color:var(--orange);transform:translateY(-2px)}
+.hero-stats{display:flex;gap:3rem;justify-content:center;margin-top:4rem;padding-top:3rem;border-top:1px solid var(--border);animation:fadeUp .8s 1.1s both}
+.stat{text-align:center}
+.stat-num{font-family:'Nunito',sans-serif;font-size:2rem;font-weight:900;background:var(--g-main);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.stat-label{font-size:.78rem;color:var(--ink-l);margin-top:.2rem;font-weight:600}
+
+/* TICKER */
+.ticker-wrap{background:var(--purple);border-top:3px solid var(--pink);border-bottom:3px solid var(--orange);padding:.85rem 0;overflow:hidden;position:relative;z-index:1}
+.ticker{display:flex;gap:4rem;animation:ticker 20s linear infinite;white-space:nowrap}
+.ticker-item{font-family:'Nunito',sans-serif;font-size:.82rem;font-weight:800;color:rgba(255,255,255,.7);display:flex;align-items:center;gap:.5rem}
+.ticker-dot{width:5px;height:5px;border-radius:50%;background:var(--yellow)}
+.ticker-item.lit{color:#fff}
+@keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* PRODUCTS */
+.products{padding:7rem 3rem;max-width:1260px;margin:0 auto;position:relative;z-index:1}
+.sec-eyebrow{font-size:.7rem;font-weight:800;color:var(--orange);letter-spacing:.2em;text-transform:uppercase;margin-bottom:.8rem}
+.sec-title{font-family:'Nunito',sans-serif;font-size:clamp(1.8rem,3vw,2.8rem);font-weight:900;line-height:1.2;margin-bottom:1rem}
+.sec-title .grad{background:var(--g-main);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.sec-desc{color:var(--ink-l);max-width:500px;line-height:1.7;margin-bottom:4rem;font-size:.93rem}
+.products-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+.product-card{background:var(--surface);border:1.5px solid var(--border);border-radius:20px;padding:2rem;transition:border-color .3s,box-shadow .3s,transform .3s;position:relative;overflow:hidden}
+.product-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--g-main);opacity:0;transition:opacity .3s}
+.product-card:hover{border-color:rgba(255,107,53,.25);box-shadow:0 16px 48px rgba(255,107,53,.08);transform:translateY(-5px)}
+.product-card:hover::before{opacity:1}
+.product-icon{width:50px;height:50px;border-radius:14px;background:rgba(255,107,53,.08);border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:1.2rem}
+.product-tag{font-size:.65rem;font-weight:800;color:var(--orange);letter-spacing:.1em;margin-bottom:.5rem;text-transform:uppercase}
+.product-name{font-family:'Nunito',sans-serif;font-size:1.05rem;font-weight:800;margin-bottom:.6rem}
+.product-desc{font-size:.83rem;color:var(--ink-l);line-height:1.65}
+.product-link{display:inline-flex;align-items:center;gap:.3rem;color:var(--orange);font-size:.8rem;font-weight:800;margin-top:1.2rem;text-decoration:none;transition:gap .2s}
+.product-link:hover{gap:.6rem}
+
+/* CAPABILITIES */
+.capabilities{padding:7rem 3rem;background:var(--ink);position:relative;z-index:1}
+.cap-inner{max-width:1260px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center}
+.cap-inner .sec-eyebrow{color:var(--orange)}
+.cap-inner .sec-title{color:#fff}
+.cap-inner .sec-desc{color:rgba(255,255,255,.55)}
+.cap-list{display:flex;flex-direction:column;gap:1.5rem}
+.cap-item{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:1.5rem;display:flex;gap:1rem;align-items:flex-start;transition:border-color .3s,transform .25s;cursor:default}
+.cap-item:hover{border-color:rgba(255,107,53,.25);transform:translateX(5px)}
+.cap-item-icon{font-size:1.3rem;flex-shrink:0}
+.cap-item-title{font-family:'Nunito',sans-serif;font-weight:800;font-size:.95rem;margin-bottom:.3rem;color:#fff}
+.cap-item-desc{font-size:.82rem;color:rgba(255,255,255,.5);line-height:1.6}
+
+/* INDUSTRIES */
+.industries{padding:7rem 3rem;max-width:1260px;margin:0 auto;position:relative;z-index:1}
+.industry-pills{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:2.5rem}
+.industry-pill{background:var(--surface);border:1.5px solid var(--border);border-radius:100px;padding:.6rem 1.2rem;font-size:.85rem;font-weight:700;color:var(--ink-l);transition:border-color .2s,color .2s,transform .2s;cursor:default}
+.industry-pill:hover{border-color:var(--orange);color:var(--orange);transform:translateY(-2px)}
+
+/* CTA */
+.cta-section{padding:6rem 3rem;text-align:center;position:relative;z-index:1;background:var(--ink);border-top:1px solid rgba(255,255,255,.07)}
+.cta-glow{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 60% 70% at 50% 50%,rgba(255,107,53,.07) 0%,transparent 70%)}
+.cta-section h2{font-family:'Nunito',sans-serif;font-size:clamp(1.8rem,3vw,2.8rem);font-weight:900;margin-bottom:1rem;color:#fff}
+.cta-section p{color:rgba(255,255,255,.55);max-width:480px;margin:0 auto 2.5rem;line-height:1.7}
+
+footer{background:var(--ink);border-top:1px solid rgba(255,255,255,.07);padding:2.5rem 3rem;display:flex;align-items:center;justify-content:space-between;position:relative;z-index:1}
+footer .logo{font-size:1rem}
+footer p{font-size:.78rem;color:rgba(255,255,255,.3)}
+footer a{color:rgba(255,255,255,.3);text-decoration:none;font-size:.78rem;font-weight:700;transition:color .2s}
+footer a:hover{color:var(--orange)}
+
+/* PARTICLES */
+.particles{position:fixed;inset:0;pointer-events:none;z-index:0}
+.particle{position:absolute;border-radius:50%;background:var(--orange);opacity:.2;animation:particleFloat linear infinite}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+@keyframes particleFloat{0%{transform:translateY(100vh) scale(0);opacity:0}10%{opacity:.2}90%{opacity:.08}100%{transform:translateY(-10vh) scale(1);opacity:0}}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s,transform .7s}
+.reveal.visible{opacity:1;transform:none}
+@media(max-width:900px){nav{padding:0 1.5rem}.nav-center{display:none}.hero,.products,.capabilities,.industries{padding:4rem 1.5rem}.products-grid{grid-template-columns:1fr}.cap-inner{grid-template-columns:1fr;gap:3rem}footer{flex-direction:column;gap:1rem;padding:2rem 1.5rem}}
+</style>
+</head>
+<body>
+<div class="particles" id="particles"></div>
+<div class="loader" id="loader">
+  <div class="loader-ring"><div class="loader-icon">🤖</div></div>
+  <div class="loader-progress"><div class="loader-bar"></div></div>
+  <div class="loader-label">INITIALIZING TECHM4 SOLUTIONS</div>
+</div>
+<nav>
+  <a href="index.html" class="back-link">← TechM4</a>
+  <a href="solutions.html" class="logo">TechM4<span class="logo-accent">Solutions</span></a>
+  <div class="nav-center">
+    <a href="#products">Products</a>
+    <a href="#capabilities">Capabilities</a>
+    <a href="#industries">Industries</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <a href="#contact" class="nav-cta">Get Started →</a>
+</nav>
+<section class="hero">
+  <div class="hero-blob-h hbh1"></div><div class="hero-blob-h hbh2"></div><div class="hero-blob-h hbh3"></div>
+  <div class="hero-content">
+    <div class="hero-badge"><span class="badge-dot"></span>TechM4India · AI & Software Division</div>
+    <h1>Engineering<br><span class="h1-grad">Intelligent Platforms</span><br>for the AI Future</h1>
+    <p class="hero-sub">Next-generation digital platforms powered by Agentic AI, data intelligence, and scalable cloud architecture — built for organizations ready to lead in the AI-driven economy.</p>
+    <div class="hero-actions">
+      <a href="#products" class="btn-glow">Explore Platforms →</a>
+      <a href="#capabilities" class="btn-outline">Our Capabilities</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-num">15+</div><div class="stat-label">AI Platforms Built</div></div>
+      <div class="stat"><div class="stat-num">5</div><div class="stat-label">Tech Domains</div></div>
+      <div class="stat"><div class="stat-num">99.9%</div><div class="stat-label">Uptime SLA</div></div>
+    </div>
+  </div>
+</section>
+<div class="ticker-wrap">
+  <div class="ticker">
+    <span class="ticker-item lit"><span class="ticker-dot"></span>Agentic AI Platforms</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Data Intelligence Systems</span>
+    <span class="ticker-item lit"><span class="ticker-dot"></span>Enterprise SaaS</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Cloud-Native Architecture</span>
+    <span class="ticker-item lit"><span class="ticker-dot"></span>Full Stack Engineering</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Machine Learning</span>
+    <span class="ticker-item lit"><span class="ticker-dot"></span>RAG-Powered Platforms</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Intelligent Automation</span>
+    <span class="ticker-item lit"><span class="ticker-dot"></span>Agentic AI Platforms</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Data Intelligence Systems</span>
+    <span class="ticker-item lit"><span class="ticker-dot"></span>Enterprise SaaS</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Cloud-Native Architecture</span>
+    <span class="ticker-item lit"><span class="ticker-dot"></span>Full Stack Engineering</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Machine Learning</span>
+    <span class="ticker-item lit"><span class="ticker-dot"></span>RAG-Powered Platforms</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Intelligent Automation</span>
+  </div>
+</div>
+<section class="products" id="products">
+  <p class="sec-eyebrow reveal">// Product Ecosystem</p>
+  <h2 class="sec-title reveal">Intelligent Platforms <span class="grad">Built to Scale</span></h2>
+  <p class="sec-desc reveal">Proprietary digital platforms designed to power modern organizations and innovation ecosystems — from education to agriculture to enterprise.</p>
+  <div class="products-grid">
+    <div class="product-card reveal"><div class="product-icon">🎓</div><p class="product-tag">SAAS PLATFORM</p><h3 class="product-name">SchoolOS</h3><p class="product-desc">A next-generation SaaS platform for future-ready education ecosystems, integrating academic systems, innovation programs, student intelligence, and institutional analytics in a unified environment.</p><a href="#" class="product-link">Learn more →</a></div>
+    <div class="product-card reveal" style="transition-delay:.1s"><div class="product-icon">🧠</div><p class="product-tag">RAG PLATFORM</p><h3 class="product-name">Education Intelligence Platform</h3><p class="product-desc">A RAG-powered knowledge platform delivering real-time insights across education summits, innovation programs, hackathons, and research initiatives — connecting institutions to opportunities globally.</p><a href="#" class="product-link">Learn more →</a></div>
+    <div class="product-card reveal" style="transition-delay:.2s"><div class="product-icon">🌾</div><p class="product-tag">AGRITECH PLATFORM</p><h3 class="product-name">RythuSeva Digital Platform</h3><p class="product-desc">A technology-driven ecosystem supporting agriculture innovation and rural development — providing digital services, information systems, and platforms that empower farming communities.</p><a href="#" class="product-link">Learn more →</a></div>
+    <div class="product-card reveal" style="transition-delay:.3s"><div class="product-icon">🤖</div><p class="product-tag">AGENTIC AI</p><h3 class="product-name">Agentic AI Platforms</h3><p class="product-desc">Advanced AI systems performing complex reasoning, automation, and decision-support functions — enabling organizations to deploy autonomous digital agents for data analysis and knowledge discovery.</p><a href="#" class="product-link">Learn more →</a></div>
+    <div class="product-card reveal" style="transition-delay:.4s"><div class="product-icon">📊</div><p class="product-tag">DATA INTELLIGENCE</p><h3 class="product-name">Analytics & Decision Intelligence</h3><p class="product-desc">Enterprise-grade data platforms transforming large-scale datasets into actionable insights — predictive analytics, real-time visualization, and AI-driven decision support systems.</p><a href="#" class="product-link">Learn more →</a></div>
+    <div class="product-card reveal" style="transition-delay:.5s"><div class="product-icon">☁️</div><p class="product-tag">ENTERPRISE SAAS</p><h3 class="product-name">Enterprise SaaS Infrastructure</h3><p class="product-desc">Cloud-based platforms for operational systems, collaboration environments, and innovation ecosystems — managing complex workflows and large-scale information environments at scale.</p><a href="#" class="product-link">Learn more →</a></div>
+  </div>
+</section>
+<section class="capabilities" id="capabilities">
+  <div class="cap-inner">
+    <div>
+      <p class="sec-eyebrow reveal">// Core Capabilities</p>
+      <h2 class="sec-title reveal">Technology <span class="grad">at Our Core</span></h2>
+      <p class="sec-desc reveal" style="margin-bottom:0">Our engineering teams work across AI, data, cloud, and software domains — building platforms that enable organizations to transform operations and harness data for strategic advantage.</p>
+    </div>
+    <div class="cap-list">
+      <div class="cap-item reveal"><span class="cap-item-icon">🧠</span><div><div class="cap-item-title">Agentic Artificial Intelligence</div><div class="cap-item-desc">Autonomous AI agents capable of reasoning, planning, and executing complex multi-step workflows without human intervention.</div></div></div>
+      <div class="cap-item reveal" style="transition-delay:.1s"><span class="cap-item-icon">📈</span><div><div class="cap-item-title">Machine Learning & Predictive Analytics</div><div class="cap-item-desc">Advanced ML models delivering accurate predictions from large-scale enterprise datasets.</div></div></div>
+      <div class="cap-item reveal" style="transition-delay:.2s"><span class="cap-item-icon">🗄️</span><div><div class="cap-item-title">Data Engineering & Large-Scale Systems</div><div class="cap-item-desc">Robust data pipelines, warehouses, and real-time streaming systems built for petabyte-scale operations.</div></div></div>
+      <div class="cap-item reveal" style="transition-delay:.3s"><span class="cap-item-icon">☁️</span><div><div class="cap-item-title">Cloud-Native SaaS Architecture</div><div class="cap-item-desc">Microservices, containerized platforms, and auto-scaling infrastructure for enterprise reliability.</div></div></div>
+      <div class="cap-item reveal" style="transition-delay:.4s"><span class="cap-item-icon">⚡</span><div><div class="cap-item-title">Enterprise Automation Systems</div><div class="cap-item-desc">Intelligent process automation reducing manual workload while increasing accuracy and operational speed.</div></div></div>
+    </div>
+  </div>
+</section>
+<section class="industries" id="industries">
+  <p class="sec-eyebrow reveal">// Industries We Serve</p>
+  <h2 class="sec-title reveal">Built for Every <span class="grad">Innovation Sector</span></h2>
+  <p class="sec-desc reveal">TechM4Solutions develops platforms that support digital transformation across multiple sectors — enabling intelligent systems that enhance efficiency, insight, and innovation capacity.</p>
+  <div class="industry-pills reveal">
+    <span class="industry-pill">🎓 Education & Knowledge Ecosystems</span>
+    <span class="industry-pill">🌾 Agriculture & Rural Technology</span>
+    <span class="industry-pill">🔬 Innovation & Research Networks</span>
+    <span class="industry-pill">🏢 Enterprise Digital Infrastructure</span>
+    <span class="industry-pill">🚀 Emerging Technology Ecosystems</span>
+    <span class="industry-pill">🏥 Healthcare Technology</span>
+    <span class="industry-pill">💰 FinTech Platforms</span>
+    <span class="industry-pill">🤝 Government & Public Sector</span>
+  </div>
+</section>
+<section class="cta-section" id="contact">
+  <div class="cta-glow"></div>
+  <p class="sec-eyebrow" style="position:relative;color:var(--orange)">// Get Started</p>
+  <h2 style="position:relative">Ready to Build the <span style="background:var(--g-main);-webkit-background-clip:text;-webkit-text-fill-color:transparent">Future Together?</span></h2>
+  <p style="position:relative">Let's design, build, and scale your next intelligent digital platform. Partner with TechM4Solutions for the AI-driven future.</p>
+  <div style="display:flex;gap:1rem;justify-content:center;position:relative">
+    <a href="#" class="btn-glow">Start a Project →</a>
+    <a href="index.html" class="btn-outline" style="color:rgba(255,255,255,.7);border-color:rgba(255,255,255,.2)">← Back to TechM4</a>
+  </div>
+</section>
+<footer>
+  <span class="logo">TechM4<span class="logo-accent">Solutions</span></span>
+  <p>© 2025 TechM4India · A Technology Product Division of TechM4India</p>
+  <a href="index.html">← TechM4 Home</a>
+</footer>
+<script>
+window.addEventListener('load',()=>setTimeout(()=>document.getElementById('loader').classList.add('hidden'),1800));
+const container=document.getElementById('particles');
+for(let i=0;i<20;i++){
+  const p=document.createElement('div');p.className='particle';
+  const size=Math.random()*3+1;
+  p.style.cssText=`left:${Math.random()*100}%;width:${size}px;height:${size}px;animation-duration:${Math.random()*15+10}s;animation-delay:${Math.random()*10}s;background:${Math.random()>.5?'#FF6B35':'#FF4D8D'};`;
+  container.appendChild(p);
+}
+const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')})},{threshold:.1});
+document.querySelectorAll('.reveal').forEach(r=>obs.observe(r));
+document.querySelectorAll('a[href="index.html"]').forEach(link=>{
+  link.addEventListener('click',e=>{e.preventDefault();document.body.style.opacity='0';document.body.style.transition='opacity .4s';setTimeout(()=>window.location.href='index.html',400)});
+});
+</script>
+</body>
+</html>

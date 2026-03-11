@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login – TechM4India</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#FFFBF5;--ink:#1A1A2E;--ink-l:#4A4A6A;
+  --orange:#FF6B35;--pink:#FF4D8D;--purple:#7B2FF7;
+  --blue:#0EA5E9;--green:#22C55E;--yellow:#FFD60A;
+  --border:rgba(26,26,46,.1);--surface:#FFFFFF;
+  --g-main:linear-gradient(135deg,#FF6B35,#FF4D8D);
+  --g-cool:linear-gradient(135deg,#0EA5E9,#7B2FF7);
+  --g-warm:linear-gradient(135deg,#FFD60A,#FF6B35);
+  --error:#EF4444;--success:#22C55E;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Quicksand',sans-serif;min-height:100vh;display:flex;overflow:hidden;background:var(--bg)}
+
+/* ─── LEFT PANEL ─── */
+.left-panel{
+  flex:0 0 52%;background:var(--ink);position:relative;overflow:hidden;
+  display:flex;flex-direction:column;justify-content:space-between;padding:3rem;
+}
+
+/* dot grid */
+.lp-dots{position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.04) 1.5px,transparent 1.5px);background-size:28px 28px;pointer-events:none}
+
+/* animated blobs */
+.lp-blob{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none;animation:blobPulse ease-in-out infinite alternate}
+.lp-b1{width:420px;height:420px;background:rgba(255,107,53,.18);top:-120px;right:-100px;animation-duration:7s}
+.lp-b2{width:320px;height:320px;background:rgba(255,77,141,.12);bottom:-60px;left:-80px;animation-duration:9s;animation-delay:-3s}
+.lp-b3{width:200px;height:200px;background:rgba(123,47,247,.1);top:50%;left:40%;animation-duration:6s;animation-delay:-5s}
+@keyframes blobPulse{from{transform:scale(1) translate(0,0)}to{transform:scale(1.12) translate(20px,14px)}}
+
+/* floating shape accents */
+.shape{position:absolute;border-radius:50%;border:1.5px solid rgba(255,255,255,.06);animation:shapeSpin linear infinite}
+.sh1{width:180px;height:180px;top:15%;right:10%;animation-duration:18s}
+.sh2{width:280px;height:280px;top:10%;right:5%;animation-duration:28s;animation-direction:reverse}
+.sh3{width:100px;height:100px;bottom:20%;left:10%;animation-duration:14s}
+@keyframes shapeSpin{to{transform:rotate(360deg)}}
+
+.lp-top{position:relative;z-index:1}
+.lp-logo{font-family:'Nunito',sans-serif;font-weight:900;font-size:1.6rem;color:#fff;text-decoration:none;display:inline-flex;align-items:center;gap:.4rem}
+.lp-logo span{background:var(--g-main);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+
+.lp-mid{position:relative;z-index:1;flex:1;display:flex;flex-direction:column;justify-content:center;padding:2rem 0}
+.lp-tagline{font-family:'Nunito',sans-serif;font-weight:900;font-size:clamp(2.2rem,3.5vw,3.6rem);color:#fff;line-height:1.05;margin-bottom:1.5rem}
+.lp-tagline .hi{background:var(--g-main);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.lp-sub{color:rgba(255,255,255,.55);line-height:1.8;font-size:.95rem;max-width:380px;margin-bottom:2.5rem}
+
+.lp-features{display:flex;flex-direction:column;gap:.9rem}
+.lp-feat{
+  display:flex;align-items:center;gap:1rem;
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);
+  border-radius:14px;padding:.9rem 1.1rem;
+  transition:border-color .3s,transform .3s;
+  animation:slideInLeft .6s both;cursor:default;
+}
+.lp-feat:nth-child(1){animation-delay:.3s}
+.lp-feat:nth-child(2){animation-delay:.45s}
+.lp-feat:nth-child(3){animation-delay:.6s}
+.lp-feat:hover{border-color:rgba(255,107,53,.3);transform:translateX(4px)}
+@keyframes slideInLeft{from{opacity:0;transform:translateX(-24px)}to{opacity:1;transform:none}}
+.feat-icon{font-size:1.3rem;flex-shrink:0}
+.feat-text{font-size:.84rem;color:rgba(255,255,255,.72);font-weight:600}
+
+/* division chips */
+.lp-bot{position:relative;z-index:1}
+.lp-divisions{display:flex;gap:.7rem;flex-wrap:wrap}
+.div-chip{
+  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);
+  border-radius:100px;padding:.35rem .9rem;
+  font-size:.72rem;font-weight:700;color:rgba(255,255,255,.55);
+  display:flex;align-items:center;gap:.35rem;
+  transition:border-color .2s,color .2s;cursor:default;
+}
+.div-chip:hover{border-color:rgba(255,107,53,.35);color:rgba(255,255,255,.85)}
+
+/* ─── RIGHT PANEL ─── */
+.right-panel{flex:1;display:flex;align-items:center;justify-content:center;padding:3rem 2rem;position:relative;overflow:hidden}
+
+/* subtle bg decoration */
+.rp-bg{position:absolute;inset:0;pointer-events:none}
+.rp-blob{position:absolute;border-radius:50%;filter:blur(80px)}
+.rpb1{width:360px;height:360px;background:rgba(255,107,53,.06);top:-80px;right:-60px}
+.rpb2{width:280px;height:280px;background:rgba(123,47,247,.05);bottom:-40px;left:-40px}
+.rp-grid{position:absolute;inset:0;background-image:radial-gradient(rgba(26,26,46,.04) 1px,transparent 1px);background-size:28px 28px}
+
+.form-box{width:100%;max-width:440px;position:relative;z-index:1}
+
+/* TABS */
+.form-tabs{
+  display:flex;background:rgba(26,26,46,.06);border-radius:14px;padding:5px;
+  margin-bottom:2.2rem;gap:4px;
+}
+.tab-btn{
+  flex:1;padding:.7rem;border:none;background:transparent;cursor:pointer;
+  font-family:'Nunito',sans-serif;font-weight:700;font-size:.88rem;
+  color:var(--ink-l);border-radius:10px;transition:all .25s;
+}
+.tab-btn.active{
+  background:var(--surface);color:var(--ink);
+  box-shadow:0 2px 12px rgba(26,26,46,.1);
+}
+.tab-btn.active.tab-signup{
+  background:var(--g-main);color:#fff;
+  box-shadow:0 4px 16px rgba(255,107,53,.28);
+}
+
+/* FORM PANELS */
+.form-panel{display:none;animation:fadeInForm .35s ease}
+.form-panel.active{display:block}
+@keyframes fadeInForm{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+.form-title{font-family:'Nunito',sans-serif;font-weight:900;font-size:1.7rem;color:var(--ink);margin-bottom:.35rem}
+.form-sub{font-size:.87rem;color:var(--ink-l);margin-bottom:2rem;line-height:1.5;font-weight:600}
+.form-sub a{color:var(--orange);text-decoration:none;font-weight:800}
+.form-sub a:hover{text-decoration:underline}
+
+/* FIELDS */
+.field{margin-bottom:1.1rem}
+.field label{display:block;font-size:.8rem;font-weight:800;color:var(--ink);margin-bottom:.42rem;letter-spacing:.02em}
+.field-wrap{position:relative}
+.field-icon{position:absolute;left:1rem;top:50%;transform:translateY(-50%);font-size:.9rem;pointer-events:none;z-index:1}
+.field input,.field select{
+  width:100%;border:1.5px solid var(--border);border-radius:12px;
+  padding:.82rem 1rem .82rem 2.8rem;
+  font-family:'Quicksand',sans-serif;font-size:.9rem;font-weight:600;color:var(--ink);
+  background:var(--surface);outline:none;
+  transition:border-color .2s,box-shadow .2s;
+}
+.field select{cursor:pointer;appearance:none}
+.field input:focus,.field select:focus{border-color:var(--orange);box-shadow:0 0 0 4px rgba(255,107,53,.1)}
+.field input.err{border-color:var(--error)}
+.field-err{font-size:.74rem;color:var(--error);margin-top:.28rem;display:none;font-weight:700}
+.field input.err~.field-err{display:block}
+
+.pass-toggle{
+  position:absolute;right:1rem;top:50%;transform:translateY(-50%);
+  background:none;border:none;cursor:pointer;font-size:.85rem;color:var(--ink-l);
+  transition:color .2s;padding:0;z-index:1;
+}
+.pass-toggle:hover{color:var(--orange)}
+
+/* name row */
+.name-row{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+
+/* REMEMBER ROW */
+.remember-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem}
+.remember{display:flex;align-items:center;gap:.5rem;font-size:.82rem;color:var(--ink-l);cursor:pointer;font-weight:600}
+.remember input{width:16px;height:16px;accent-color:var(--orange)}
+.forgot{font-size:.82rem;color:var(--orange);text-decoration:none;font-weight:800}
+.forgot:hover{text-decoration:underline}
+
+/* SUBMIT BUTTON */
+.submit-btn{
+  width:100%;background:var(--g-main);color:#fff;
+  border:none;border-radius:100px;padding:.95rem;
+  font-family:'Nunito',sans-serif;font-weight:900;font-size:.97rem;
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:.5rem;
+  box-shadow:0 6px 24px rgba(255,107,53,.3);
+  position:relative;overflow:hidden;
+  transition:transform .2s,box-shadow .2s;
+}
+.submit-btn::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,transparent,rgba(255,255,255,.15),transparent);transform:translateX(-100%);transition:transform .5s}
+.submit-btn:hover{transform:translateY(-2px);box-shadow:0 12px 36px rgba(255,107,53,.44)}
+.submit-btn:hover::after{transform:translateX(100%)}
+.submit-btn:disabled{opacity:.6;cursor:not-allowed;transform:none;box-shadow:none}
+
+/* DIVIDER */
+.divider{display:flex;align-items:center;gap:1rem;margin:1.5rem 0;font-size:.8rem;color:var(--ink-l);font-weight:600}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* SOCIAL BUTTONS */
+.social-btns{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:1.5rem}
+.social-btn{
+  border:1.5px solid var(--border);border-radius:12px;padding:.72rem;
+  background:var(--surface);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:.5rem;
+  font-family:'Nunito',sans-serif;font-weight:700;font-size:.83rem;color:var(--ink);
+  transition:border-color .2s,transform .2s,box-shadow .2s;
+}
+.social-btn:hover{border-color:var(--orange);transform:translateY(-2px);box-shadow:0 4px 16px rgba(255,107,53,.12)}
+.social-icon{font-size:1rem}
+
+/* SUCCESS STATE */
+.success-state{display:none;text-align:center;padding:2.5rem 1rem;animation:fadeInForm .4s ease}
+.success-state.show{display:block}
+.success-icon{font-size:4rem;margin-bottom:1rem;animation:bouncePop .6s ease}
+@keyframes bouncePop{0%{transform:scale(0)}55%{transform:scale(1.22)}80%{transform:scale(.94)}100%{transform:scale(1)}}
+.success-title{font-family:'Nunito',sans-serif;font-weight:900;font-size:1.5rem;margin-bottom:.5rem;color:var(--ink)}
+.success-sub{color:var(--ink-l);font-size:.88rem;line-height:1.65;font-weight:600}
+.success-btn{
+  display:inline-block;margin-top:1.5rem;
+  background:var(--g-main);color:#fff;
+  padding:.8rem 2rem;border-radius:100px;
+  text-decoration:none;font-family:'Nunito',sans-serif;font-weight:800;font-size:.92rem;
+  box-shadow:0 4px 16px rgba(255,107,53,.28);
+  transition:transform .2s,box-shadow .2s;
+}
+.success-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(255,107,53,.42)}
+
+/* PASSWORD STRENGTH */
+.strength-meter{margin-top:.5rem;display:none}
+.strength-meter.show{display:block}
+.strength-track{height:5px;border-radius:100px;background:var(--border);overflow:hidden;margin-bottom:.35rem}
+.strength-fill{height:100%;border-radius:100px;transition:width .3s,background .3s;width:0}
+.strength-label{font-size:.72rem;color:var(--ink-l);font-weight:700}
+.strength-dots{display:flex;gap:.35rem;margin-bottom:.3rem}
+.sdot{width:8px;height:8px;border-radius:50%;background:var(--border);transition:background .3s,transform .2s}
+.sdot.lit{transform:scale(1.2)}
+
+/* TOAST */
+.toast{
+  position:fixed;bottom:2rem;right:2rem;
+  background:var(--ink);color:#fff;
+  padding:.82rem 1.4rem;border-radius:100px;
+  font-family:'Nunito',sans-serif;font-size:.85rem;font-weight:700;
+  transform:translateY(100px);opacity:0;
+  transition:transform .4s cubic-bezier(.34,1.56,.64,1),opacity .3s;
+  z-index:999;display:flex;align-items:center;gap:.5rem;
+}
+.toast.show{transform:translateY(0);opacity:1}
+
+/* PROGRESS BAR (top) */
+.progress-bar{position:fixed;top:0;left:0;height:3px;background:var(--g-main);width:0;transition:width .4s;z-index:1000}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:768px){
+  body{flex-direction:column}
+  .left-panel{flex:0 0 auto;min-height:220px;padding:2rem}
+  .lp-mid{padding:1.5rem 0}
+  .lp-tagline{font-size:1.9rem}
+  .lp-features,.lp-sub{display:none}
+  .right-panel{padding:2rem 1.5rem;flex:1}
+}
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- ═══ LEFT PANEL ═══ -->
+<div class="left-panel">
+  <div class="lp-dots"></div>
+  <div class="lp-blob lp-b1"></div>
+  <div class="lp-blob lp-b2"></div>
+  <div class="lp-blob lp-b3"></div>
+  <div class="shape sh1"></div>
+  <div class="shape sh2"></div>
+  <div class="shape sh3"></div>
+
+  <div class="lp-top">
+    <a href="index.html" class="lp-logo">Tech<span>M4</span></a>
+  </div>
+
+  <div class="lp-mid">
+    <div class="lp-tagline">
+      Welcome to<br>the <span class="hi">Future</span><br>of Learning
+    </div>
+    <p class="lp-sub">Join thousands of students, educators, and innovators building India's next-generation tech ecosystem through TechM4India.</p>
+    <div class="lp-features">
+      <div class="lp-feat"><span class="feat-icon">⚙️</span><span class="feat-text">Access 120+ engineering &amp; technology courses</span></div>
+      <div class="lp-feat"><span class="feat-icon">🤖</span><span class="feat-text">Explore AI-powered learning platforms</span></div>
+      <div class="lp-feat"><span class="feat-icon">🚀</span><span class="feat-text">Join aerospace &amp; space innovation programs</span></div>
+    </div>
+  </div>
+
+  <div class="lp-bot">
+    <div class="lp-divisions">
+      <span class="div-chip">⚙️ Engineering</span>
+      <span class="div-chip">🤖 Solutions</span>
+      <span class="div-chip">🚀 Space</span>
+      <span class="div-chip">🏫 Schools</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ RIGHT PANEL ═══ -->
+<div class="right-panel">
+  <div class="rp-bg">
+    <div class="rp-blob rpb1"></div>
+    <div class="rp-blob rpb2"></div>
+    <div class="rp-grid"></div>
+  </div>
+
+  <div class="form-box">
+
+    <!-- TABS -->
+    <div class="form-tabs">
+      <button class="tab-btn active" id="tabLogin" onclick="switchTab('login')">Sign In</button>
+      <button class="tab-btn tab-signup" id="tabSignup" onclick="switchTab('signup')">Create Account</button>
+    </div>
+
+    <!-- ── LOGIN PANEL ── -->
+    <div class="form-panel active" id="loginPanel">
+      <div id="loginForm">
+        <h2 class="form-title">👋 Welcome back!</h2>
+        <p class="form-sub">New to TechM4? <a href="#" onclick="switchTab('signup')">Create a free account →</a></p>
+
+        <div class="field">
+          <label>Email Address</label>
+          <div class="field-wrap">
+            <span class="field-icon">✉️</span>
+            <input type="email" id="loginEmail" placeholder="you@email.com">
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Password</label>
+          <div class="field-wrap">
+            <span class="field-icon">🔒</span>
+            <input type="password" id="loginPass" placeholder="Your password">
+            <button class="pass-toggle" type="button" onclick="togglePass('loginPass',this)">👁</button>
+          </div>
+        </div>
+
+        <div class="remember-row">
+          <label class="remember"><input type="checkbox"> Remember me</label>
+          <a href="#" class="forgot">Forgot password?</a>
+        </div>
+
+        <button class="submit-btn" id="loginBtn" onclick="handleLogin()">
+          <span>Sign In</span><span>→</span>
+        </button>
+
+        <div class="divider">or continue with</div>
+        <div class="social-btns">
+          <button class="social-btn" onclick="socialLogin('Google')"><span class="social-icon">🌐</span>Google</button>
+          <button class="social-btn" onclick="socialLogin('Microsoft')"><span class="social-icon">🪟</span>Microsoft</button>
+        </div>
+
+        <p style="text-align:center;font-size:.78rem;color:var(--ink-l);font-weight:600">
+          Are you an admin? <a href="admin.html" style="color:var(--orange);font-weight:800">Admin Login →</a>
+        </p>
+      </div>
+
+      <div class="success-state" id="loginSuccess">
+        <div class="success-icon">🎉</div>
+        <h3 class="success-title">Welcome back!</h3>
+        <p class="success-sub">You've been signed in successfully.<br>Redirecting to your dashboard...</p>
+      </div>
+    </div>
+
+    <!-- ── SIGNUP PANEL ── -->
+    <div class="form-panel" id="signupPanel">
+      <div id="signupForm">
+        <h2 class="form-title">✨ Join TechM4!</h2>
+        <p class="form-sub">Already have an account? <a href="#" onclick="switchTab('login')">Sign in →</a></p>
+
+        <div class="name-row">
+          <div class="field">
+            <label>First Name</label>
+            <div class="field-wrap">
+              <span class="field-icon">👤</span>
+              <input type="text" placeholder="Arjun">
+            </div>
+          </div>
+          <div class="field">
+            <label>Last Name</label>
+            <div class="field-wrap">
+              <span class="field-icon">👤</span>
+              <input type="text" placeholder="Sharma">
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Email Address</label>
+          <div class="field-wrap">
+            <span class="field-icon">✉️</span>
+            <input type="email" id="signupEmail" placeholder="you@email.com">
+          </div>
+        </div>
+
+        <div class="field">
+          <label>I am a</label>
+          <div class="field-wrap">
+            <span class="field-icon">🏷️</span>
+            <select>
+              <option>Student</option>
+              <option>Faculty / Educator</option>
+              <option>Institution Admin</option>
+              <option>Industry Professional</option>
+              <option>Other</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Password</label>
+          <div class="field-wrap">
+            <span class="field-icon">🔒</span>
+            <input type="password" id="signupPass" placeholder="Create a strong password" oninput="updateStrength(this)">
+            <button class="pass-toggle" type="button" onclick="togglePass('signupPass',this)">👁</button>
+          </div>
+          <div class="strength-meter" id="strengthMeter">
+            <div class="strength-dots" id="strengthDots">
+              <div class="sdot" id="sd1"></div>
+              <div class="sdot" id="sd2"></div>
+              <div class="sdot" id="sd3"></div>
+              <div class="sdot" id="sd4"></div>
+            </div>
+            <div class="strength-track"><div class="strength-fill" id="strengthFill"></div></div>
+            <div class="strength-label" id="strengthLabel"></div>
+          </div>
+        </div>
+
+        <button class="submit-btn" id="signupBtn" onclick="handleSignup()" style="margin-top:.5rem">
+          <span>Create Account</span><span>🚀</span>
+        </button>
+
+        <p style="text-align:center;font-size:.74rem;color:var(--ink-l);margin-top:1rem;line-height:1.55;font-weight:600">
+          By signing up you agree to our
+          <a href="#" style="color:var(--orange);font-weight:800">Terms of Service</a> and
+          <a href="#" style="color:var(--orange);font-weight:800">Privacy Policy</a>
+        </p>
+      </div>
+
+      <div class="success-state" id="signupSuccess">
+        <div class="success-icon">✅</div>
+        <h3 class="success-title">You're in! 🎊</h3>
+        <p class="success-sub">Welcome to TechM4India!<br>Check your email to verify your account and get started on your innovation journey.</p>
+        <a href="index.html" class="success-btn">Go to Homepage →</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+function switchTab(tab) {
+  const isLogin = tab === 'login';
+  document.getElementById('tabLogin').classList.toggle('active', isLogin);
+  document.getElementById('tabSignup').classList.toggle('active', !isLogin);
+  document.getElementById('loginPanel').classList.toggle('active', isLogin);
+  document.getElementById('signupPanel').classList.toggle('active', !isLogin);
+}
+
+function togglePass(id, btn) {
+  const input = document.getElementById(id);
+  input.type = input.type === 'password' ? 'text' : 'password';
+  btn.textContent = input.type === 'password' ? '👁' : '🙈';
+}
+
+const levels = [
+  { pct:'25%', color:'#EF4444', text:'Weak — try adding numbers', dots:['#EF4444','#EEE','#EEE','#EEE'] },
+  { pct:'50%', color:'#F59E0B', text:'Fair — add uppercase letters', dots:['#F59E0B','#F59E0B','#EEE','#EEE'] },
+  { pct:'75%', color:'#0EA5E9', text:'Good — add a special character', dots:['#0EA5E9','#0EA5E9','#0EA5E9','#EEE'] },
+  { pct:'100%', color:'#22C55E', text:'Strong password! 🎉', dots:['#22C55E','#22C55E','#22C55E','#22C55E'] },
+];
+
+function updateStrength(input) {
+  const meter = document.getElementById('strengthMeter');
+  const fill = document.getElementById('strengthFill');
+  const label = document.getElementById('strengthLabel');
+  const val = input.value;
+  meter.classList.toggle('show', val.length > 0);
+  let score = 0;
+  if (val.length >= 8) score++;
+  if (/[A-Z]/.test(val)) score++;
+  if (/[0-9]/.test(val)) score++;
+  if (/[^A-Za-z0-9]/.test(val)) score++;
+  if (val.length === 0) { fill.style.width = '0'; label.textContent = ''; return; }
+  const l = levels[Math.max(score - 1, 0)];
+  fill.style.width = l.pct;
+  fill.style.background = l.color;
+  label.textContent = l.text;
+  label.style.color = l.color;
+  ['sd1','sd2','sd3','sd4'].forEach((id,i) => {
+    const d = document.getElementById(id);
+    d.style.background = l.dots[i];
+    d.classList.toggle('lit', l.dots[i] !== '#EEE');
+  });
+}
+
+function setProgress(pct) {
+  document.getElementById('progressBar').style.width = pct + '%';
+}
+
+function handleLogin() {
+  const email = document.getElementById('loginEmail').value;
+  const pass = document.getElementById('loginPass').value;
+  if (!email || !pass) { showToast('⚠️ Please fill in all fields'); return; }
+  if (!email.includes('@')) { showToast('⚠️ Please enter a valid email'); return; }
+  const btn = document.getElementById('loginBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span>Signing in...</span><span>⏳</span>';
+  setProgress(40);
+  setTimeout(() => setProgress(80), 500);
+  setTimeout(() => {
+    setProgress(100);
+    document.getElementById('loginForm').style.display = 'none';
+    document.getElementById('loginSuccess').classList.add('show');
+    setTimeout(() => window.location.href = 'index.html', 2500);
+  }, 1300);
+}
+
+function handleSignup() {
+  const email = document.getElementById('signupEmail').value;
+  const pass = document.getElementById('signupPass').value;
+  if (!email || !pass) { showToast('⚠️ Please fill in all fields'); return; }
+  if (!email.includes('@')) { showToast('⚠️ Please enter a valid email'); return; }
+  if (pass.length < 6) { showToast('⚠️ Password must be at least 6 characters'); return; }
+  const btn = document.getElementById('signupBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span>Creating account...</span><span>⏳</span>';
+  setProgress(40);
+  setTimeout(() => setProgress(80), 500);
+  setTimeout(() => {
+    setProgress(100);
+    document.getElementById('signupForm').style.display = 'none';
+    document.getElementById('signupSuccess').classList.add('show');
+  }, 1300);
+}
+
+function socialLogin(provider) {
+  showToast('🔗 Connecting to ' + provider + '...');
+  setProgress(60);
+  setTimeout(() => { setProgress(100); setTimeout(() => window.location.href = 'index.html', 400); }, 1400);
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.innerHTML = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3200);
+}
+</script>
+</body>
+</html>

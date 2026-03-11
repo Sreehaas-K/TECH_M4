@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About TechM4 – Building Tomorrow's Innovators</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#FFFBF5;--ink:#1A1A2E;--ink-l:#4A4A6A;
+  --orange:#FF6B35;--pink:#FF4D8D;--purple:#7B2FF7;
+  --blue:#0EA5E9;--green:#22C55E;--yellow:#FFD60A;
+  --border:rgba(26,26,46,.08);--surface:#FFFFFF;
+  --g-main:linear-gradient(135deg,#FF6B35,#FF4D8D);
+  --sidebar-w:72px;--sidebar-exp:240px;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Quicksand',sans-serif;background:var(--bg);color:var(--ink);overflow-x:hidden;margin-left:var(--sidebar-w);transition:margin-left .4s cubic-bezier(.76,0,.24,1)}
+body.sidebar-open{margin-left:var(--sidebar-exp)}
+
+/* SIDEBAR */
+.sidebar{position:fixed;top:0;left:0;bottom:0;width:var(--sidebar-w);background:var(--ink);z-index:200;display:flex;flex-direction:column;transition:width .4s cubic-bezier(.76,0,.24,1);overflow:hidden}
+.sidebar:hover,.sidebar.open{width:var(--sidebar-exp)}
+.sidebar-logo{padding:1.4rem 0;display:flex;align-items:center;gap:1rem;border-bottom:1px solid rgba(255,255,255,.08);cursor:pointer;text-decoration:none;min-width:var(--sidebar-exp)}
+.slogo-icon{width:var(--sidebar-w);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:'Nunito',sans-serif;font-weight:900;font-size:1.1rem;color:var(--orange)}
+.slogo-text{font-family:'Nunito',sans-serif;font-weight:900;font-size:1rem;color:#fff;white-space:nowrap;opacity:0;transition:opacity .25s .1s}
+.sidebar:hover .slogo-text,.sidebar.open .slogo-text{opacity:1}
+.sidebar-nav{flex:1;padding:.5rem 0;overflow-y:auto;overflow-x:hidden}
+.sidebar-nav::-webkit-scrollbar{display:none}
+.sidebar-section{padding:.6rem 0 .2rem;font-size:.6rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.25);white-space:nowrap;opacity:0;padding-left:calc(var(--sidebar-w) + .2rem);transition:opacity .2s .12s}
+.sidebar:hover .sidebar-section,.sidebar.open .sidebar-section{opacity:1}
+.nav-item{display:flex;align-items:center;gap:1rem;padding:.75rem 0;text-decoration:none;cursor:pointer;min-width:var(--sidebar-exp);transition:background .2s;position:relative}
+.nav-item:hover{background:rgba(255,255,255,.06)}
+.nav-item.active{background:rgba(255,107,53,.15)}
+.nav-item.active::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--orange);border-radius:0 3px 3px 0}
+.nav-icon{width:var(--sidebar-w);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:1.1rem;transition:transform .2s}
+.nav-item:hover .nav-icon{transform:scale(1.15)}
+.nav-label{font-size:.85rem;font-weight:700;color:rgba(255,255,255,.7);white-space:nowrap;opacity:0;transition:opacity .2s .1s}
+.sidebar:hover .nav-label,.sidebar.open .nav-label{opacity:1}
+.nav-item.active .nav-label{color:#fff}
+.sidebar-footer{border-top:1px solid rgba(255,255,255,.08);padding:1rem 0}
+
+/* SIDEBAR TOGGLE (mobile) */
+.sidebar-toggle{display:none;position:fixed;top:1rem;left:1rem;z-index:300;background:var(--ink);border:none;border-radius:8px;width:40px;height:40px;cursor:pointer;color:#fff;font-size:1.1rem;align-items:center;justify-content:center}
+
+/* TOPBAR */
+.topbar{position:sticky;top:0;z-index:100;background:rgba(255,251,245,.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 3rem;height:60px;display:flex;align-items:center;justify-content:space-between}
+.topbar-title{font-family:'Nunito',sans-serif;font-weight:800;font-size:1rem;color:var(--ink)}
+.topbar-actions{display:flex;gap:.75rem;align-items:center}
+.topbar-btn{background:var(--g-main);color:#fff;padding:.45rem 1.1rem;border-radius:100px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.82rem;text-decoration:none;box-shadow:0 4px 14px rgba(255,107,53,.28);transition:transform .2s}
+.topbar-btn:hover{transform:translateY(-2px)}
+.topbar-btn-ghost{background:transparent;color:var(--ink-l);padding:.45rem 1.1rem;border-radius:100px;font-weight:700;font-size:.82rem;text-decoration:none;border:1.5px solid var(--border);transition:border-color .2s,color .2s}
+.topbar-btn-ghost:hover{border-color:var(--orange);color:var(--orange)}
+
+/* HERO */
+.hero{min-height:90vh;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:4rem;padding:5rem 4rem;position:relative;overflow:hidden}
+.eyebrow{font-size:.72rem;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);background:rgba(255,107,53,.1);padding:.35rem .9rem;border-radius:100px;display:inline-block;margin-bottom:1.8rem;opacity:0;animation:fadeUp .7s .2s forwards}
+.hero h1{font-family:'Nunito',sans-serif;font-size:clamp(2.8rem,5vw,5rem);font-weight:900;line-height:1.04;color:var(--ink);opacity:0;animation:fadeUp .7s .35s forwards}
+.hero h1 em{font-style:normal;color:var(--orange)}
+.hero-sub{font-size:1.05rem;color:var(--ink-l);line-height:1.8;max-width:480px;margin-top:1.5rem;opacity:0;animation:fadeUp .7s .5s forwards}
+.hero-stats{display:flex;gap:2.5rem;margin-top:3rem;padding-top:2.5rem;border-top:1px solid var(--border);opacity:0;animation:fadeUp .7s .65s forwards}
+.stat-item{}.stat-num{font-family:'Nunito',sans-serif;font-size:2.2rem;font-weight:900;background:var(--g-main);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.stat-label{font-size:.78rem;color:var(--ink-l);margin-top:.1rem;font-weight:600}
+/* Hero right - blobs + float cards */
+.hero-right{position:relative;height:480px;opacity:0;animation:fadeUp .7s .5s forwards}
+.blob{position:absolute;border-radius:40% 60% 70% 30%/40% 50% 60% 50%;animation:blobMorph 8s ease-in-out infinite}
+.blob1{width:320px;height:320px;top:10%;left:10%;background:linear-gradient(135deg,rgba(255,107,53,.15),rgba(255,214,10,.1))}
+.blob2{width:260px;height:260px;top:20%;right:5%;background:linear-gradient(135deg,rgba(14,165,233,.1),rgba(123,47,247,.08));animation-delay:-3s;border-radius:60% 40% 30% 70%/60% 30% 70% 40%}
+.blob3{width:180px;height:180px;bottom:15%;left:30%;background:linear-gradient(135deg,rgba(255,77,141,.08),rgba(255,107,53,.06));animation-delay:-5s}
+@keyframes blobMorph{0%,100%{border-radius:40% 60% 70% 30%/40% 50% 60% 50%;transform:rotate(0deg) scale(1)}33%{border-radius:70% 30% 50% 50%/30% 60% 40% 70%;transform:rotate(5deg) scale(1.03)}66%{border-radius:50% 50% 30% 70%/60% 40% 60% 40%;transform:rotate(-4deg) scale(.97)}}
+.float-cards{position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr;gap:1rem;padding:2rem;align-content:center}
+.fcard{background:var(--surface);border-radius:16px;padding:1rem 1.2rem;display:flex;align-items:center;gap:.8rem;border:1.5px solid var(--border);box-shadow:0 8px 24px rgba(26,26,46,.08);animation:fcardFloat 4s ease-in-out infinite}
+.fcard:nth-child(2){animation-delay:-1s}.fcard:nth-child(3){animation-delay:-2s}.fcard:nth-child(4){animation-delay:-3s}
+@keyframes fcardFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.fcard-icon{font-size:1.5rem}.fcard-num{font-family:'Nunito',sans-serif;font-weight:900;font-size:.95rem;color:var(--ink)}
+.fcard-txt{font-size:.72rem;color:var(--ink-l);font-weight:600}
+
+/* SECTIONS SHARED */
+.section{padding:6rem 4rem;max-width:1200px;margin:0 auto}
+.section-label{font-size:.72rem;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-l);margin-bottom:.8rem}
+.section-title{font-family:'Nunito',sans-serif;font-size:clamp(2rem,3.5vw,2.8rem);font-weight:900;max-width:600px;line-height:1.2;margin-bottom:1.2rem}
+.section-title em{font-style:normal;color:var(--orange)}
+.section-desc{color:var(--ink-l);line-height:1.8;max-width:580px;margin-bottom:2.5rem;font-size:.95rem}
+
+/* MISSION */
+.mission-bg{background:var(--ink);padding:7rem 4rem;position:relative;overflow:hidden}
+.mission-bg::before{content:'';position:absolute;inset:0;background-image:radial-gradient(rgba(255,107,53,.05) 1px,transparent 1px);background-size:28px 28px}
+.mission-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center}
+.mission-bg .section-title{color:#fff}
+.mission-values{display:flex;flex-direction:column;gap:1.2rem}
+.value-item{display:flex;align-items:flex-start;gap:1rem;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:1.2rem;transition:border-color .3s,transform .25s}
+.value-item:hover{border-color:rgba(255,107,53,.25);transform:translateX(5px)}
+.value-icon{font-size:1.4rem;flex-shrink:0}
+.value-title{font-family:'Nunito',sans-serif;font-weight:800;font-size:.95rem;color:#fff;margin-bottom:.2rem}
+.value-desc{font-size:.82rem;color:rgba(255,255,255,.5);line-height:1.6}
+
+/* TEAM */
+.team-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem}
+.team-card{background:var(--surface);border-radius:18px;overflow:hidden;border:1.5px solid var(--border);transition:transform .3s,box-shadow .3s,border-color .3s}
+.team-card:hover{transform:translateY(-8px);box-shadow:0 20px 48px rgba(26,26,46,.1);border-color:rgba(255,107,53,.2)}
+.team-avatar{height:120px;display:flex;align-items:center;justify-content:center;font-size:3rem}
+.av-1{background:linear-gradient(135deg,#FF6B35,#FF4D8D)}.av-2{background:linear-gradient(135deg,#FF4D8D,#7B2FF7)}
+.av-3{background:linear-gradient(135deg,#7B2FF7,#0EA5E9)}.av-4{background:linear-gradient(135deg,#0EA5E9,#22C55E)}
+.av-5{background:linear-gradient(135deg,#22C55E,#FFD60A)}.av-6{background:linear-gradient(135deg,#FFD60A,#FF6B35)}
+.av-7{background:linear-gradient(135deg,#FF6B35,#7B2FF7)}.av-8{background:linear-gradient(135deg,#0EA5E9,#FF4D8D)}
+.team-info{padding:1.2rem}
+.team-name{font-family:'Nunito',sans-serif;font-weight:900;font-size:.95rem;margin-bottom:.2rem}
+.team-role{font-size:.75rem;color:var(--orange);font-weight:700;letter-spacing:.05em;margin-bottom:.5rem;text-transform:uppercase}
+.team-bio{font-size:.78rem;color:var(--ink-l);line-height:1.6}
+
+/* COLLABORATORS */
+.collab-section{background:var(--ink);padding:4rem;overflow:hidden}
+.collab-label{text-align:center;font-family:'Nunito',sans-serif;font-weight:800;font-size:1rem;color:#fff;margin-bottom:2rem;letter-spacing:.05em}
+.ticker-track{display:flex;width:max-content;animation:tickerScroll 25s linear infinite}
+.ticker-row{display:flex;gap:1.2rem;padding:.5rem 0}
+.ticker-row2{animation-direction:reverse}
+.collab-pill{display:flex;align-items:center;gap:.6rem;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:100px;padding:.55rem 1.2rem;white-space:nowrap;transition:border-color .2s,transform .2s;cursor:default}
+.collab-pill:hover{border-color:rgba(255,107,53,.3);transform:translateY(-2px)}
+.collab-icon{font-size:1rem}.collab-name{font-size:.8rem;font-weight:700;color:rgba(255,255,255,.75)}
+@keyframes tickerScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* DIVISIONS SHOWCASE */
+.divisions-section{background:rgba(255,107,53,.03);padding:7rem 4rem;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.div-inner{max-width:1200px;margin:0 auto}
+.divisions-scroll{display:grid;grid-template-columns:repeat(4,1fr);gap:1.4rem;margin-top:3rem}
+.div-block{background:var(--surface);border-radius:18px;padding:1.8rem;border:1.5px solid var(--border);text-decoration:none;color:inherit;transition:transform .3s,box-shadow .3s,border-color .3s}
+.div-block:hover{transform:translateY(-6px);box-shadow:0 16px 40px rgba(26,26,46,.1);border-color:rgba(255,107,53,.2)}
+.db-icon{font-size:1.8rem;display:block;margin-bottom:1rem}
+.db-tag{font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;margin-bottom:.4rem}
+.db-title{font-family:'Nunito',sans-serif;font-weight:900;font-size:1.1rem;margin-bottom:.6rem;color:var(--ink)}
+.db-desc{font-size:.8rem;color:var(--ink-l);line-height:1.65;margin-bottom:1rem}
+.db-link{font-size:.8rem;font-weight:800;color:var(--orange)}
+
+/* TIMELINE */
+.timeline-section{padding:6rem 4rem;max-width:1200px;margin:0 auto}
+.timeline{position:relative;margin-top:3rem}
+.timeline::before{content:'';position:absolute;left:50%;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,var(--orange),var(--pink),var(--purple));transform:translateX(-50%)}
+.tl-item{display:grid;grid-template-columns:1fr auto 1fr;gap:2rem;align-items:center;margin-bottom:3rem}
+.tl-year{text-align:right;font-family:'Nunito',sans-serif;font-size:1.2rem;font-weight:900;background:var(--g-main);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.tl-dot{width:14px;height:14px;border-radius:50%;background:var(--orange);border:3px solid var(--bg);box-shadow:0 0 0 2px var(--orange);flex-shrink:0}
+.tl-content{background:var(--surface);border:1.5px solid var(--border);border-radius:14px;padding:1.4rem;transition:border-color .3s,transform .25s}
+.tl-content:hover{border-color:rgba(255,107,53,.25);transform:translateX(-5px)}
+.tl-tag{font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.12em;color:var(--orange);margin-bottom:.3rem}
+.tl-title{font-family:'Nunito',sans-serif;font-weight:900;font-size:1rem;margin-bottom:.4rem}
+.tl-desc{font-size:.82rem;color:var(--ink-l);line-height:1.6}
+
+/* CONTACT */
+.contact-section{background:var(--ink);padding:7rem 4rem}
+.contact-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin:2.5rem 0}
+.contact-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:1.5rem;text-align:center;transition:border-color .3s}
+.contact-card:hover{border-color:rgba(255,107,53,.25)}
+.cc-icon{font-size:1.8rem;display:block;margin-bottom:.6rem}
+.cc-label{font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.4);margin-bottom:.3rem}
+.cc-value{font-weight:700;color:#fff;font-size:.92rem}
+.contact-form{display:grid;gap:1rem;max-width:600px;margin:2rem auto 0}
+.contact-form input,.contact-form textarea{background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.1);border-radius:12px;padding:.9rem 1.1rem;font-family:'Quicksand',sans-serif;font-size:.9rem;color:#fff;outline:none;transition:border-color .2s}
+.contact-form input::placeholder,.contact-form textarea::placeholder{color:rgba(255,255,255,.35)}
+.contact-form input:focus,.contact-form textarea:focus{border-color:var(--orange)}
+.contact-form textarea{min-height:120px;resize:vertical}
+.contact-form input[type="submit"]{background:var(--g-main);color:#fff;border:none;cursor:pointer;font-family:'Nunito',sans-serif;font-weight:800;font-size:.95rem;border-radius:100px;box-shadow:0 4px 16px rgba(255,107,53,.3);transition:transform .2s}
+.contact-form input[type="submit"]:hover{transform:translateY(-2px)}
+
+/* FOOTER */
+footer{background:var(--ink);border-top:1px solid rgba(255,255,255,.07);padding:3rem 4rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+.footer-brand{font-family:'Nunito',sans-serif;font-weight:900;font-size:1.3rem;text-decoration:none;color:#fff}
+.footer-brand span{color:var(--orange)}
+footer p{color:rgba(255,255,255,.35);font-size:.82rem}
+.footer-links{display:flex;gap:1.5rem;flex-wrap:wrap}
+.footer-links a{color:rgba(255,255,255,.35);text-decoration:none;font-size:.82rem;font-weight:700;transition:color .2s}
+.footer-links a:hover{color:var(--orange)}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s,transform .7s}
+.reveal-left{opacity:0;transform:translateX(-24px);transition:opacity .7s,transform .7s}
+.reveal-right{opacity:0;transform:translateX(24px);transition:opacity .7s,transform .7s}
+.reveal.visible,.reveal-left.visible,.reveal-right.visible{opacity:1;transform:none}
+
+/* TOAST */
+.toast{position:fixed;bottom:2rem;right:2rem;background:var(--ink);color:#fff;padding:.8rem 1.5rem;border-radius:100px;font-size:.88rem;font-weight:700;transform:translateY(100px);transition:transform .4s cubic-bezier(.34,1.56,.64,1);z-index:400}
+.toast.show{transform:translateY(0)}
+
+@media(max-width:1024px){.hero{grid-template-columns:1fr}.hero-right{display:none}.mission-inner{grid-template-columns:1fr;gap:3rem}.divisions-scroll{grid-template-columns:repeat(2,1fr)}.team-grid{grid-template-columns:repeat(2,1fr)}.timeline::before{left:20px}.tl-item{grid-template-columns:auto 1fr}.tl-year{grid-column:2}.tl-dot{grid-row:1}.tl-content:hover{transform:translateX(5px)}}
+@media(max-width:768px){.sidebar-toggle{display:flex}body{margin-left:0}.sidebar{left:-100%;transition:left .4s}.sidebar.open{left:0}.topbar,.hero,.section,.mission-bg,.divisions-section,.timeline-section,.contact-section,.collab-section,footer{padding-left:1.5rem;padding-right:1.5rem}.team-grid{grid-template-columns:1fr}.divisions-scroll{grid-template-columns:1fr}.contact-grid{grid-template-columns:1fr}footer{flex-direction:column;text-align:center}}
+</style>
+</head>
+<body>
+<!-- SIDEBAR -->
+<nav class="sidebar" id="sidebar">
+  <a href="index.html" class="sidebar-logo">
+    <span class="slogo-icon">M4</span><span class="slogo-text">TechM4India</span>
+  </a>
+  <div class="sidebar-nav">
+    <div class="sidebar-section">Main</div>
+    <a href="index.html" class="nav-item"><span class="nav-icon">🏠</span><span class="nav-label">Home</span></a>
+    <a href="about.html" class="nav-item active"><span class="nav-icon">📖</span><span class="nav-label">About Us</span></a>
+    <div class="sidebar-section">Divisions</div>
+    <a href="engineering.html" class="nav-item"><span class="nav-icon">⚙️</span><span class="nav-label">Engineering</span></a>
+    <a href="solutions.html" class="nav-item"><span class="nav-icon">🤖</span><span class="nav-label">Solutions</span></a>
+    <a href="space.html" class="nav-item"><span class="nav-icon">🚀</span><span class="nav-label">Space Tech</span></a>
+    <a href="techm4schools.html" class="nav-item"><span class="nav-icon">🏫</span><span class="nav-label">Schools</span></a>
+    <div class="sidebar-section">Company</div>
+    <a href="#team" class="nav-item"><span class="nav-icon">👥</span><span class="nav-label">Our Team</span></a>
+    <a href="#collaborators" class="nav-item"><span class="nav-icon">🤝</span><span class="nav-label">Collaborators</span></a>
+    <a href="#timeline" class="nav-item"><span class="nav-icon">📅</span><span class="nav-label">Milestones</span></a>
+    <a href="#contact" class="nav-item"><span class="nav-icon">✉️</span><span class="nav-label">Contact</span></a>
+    <div class="sidebar-section">Account</div>
+    <a href="login.html" class="nav-item"><span class="nav-icon">🔑</span><span class="nav-label">Login</span></a>
+    <a href="admin.html" class="nav-item"><span class="nav-icon">🛡️</span><span class="nav-label">Admin</span></a>
+  </div>
+  <div class="sidebar-footer"><div class="nav-item" style="cursor:default"><span class="nav-icon" style="font-size:.5rem;color:rgba(255,255,255,.3)">●</span><span class="nav-label" style="font-size:.7rem;color:rgba(255,255,255,.3)">v2.0 · 2025</span></div></div>
+</nav>
+<button class="sidebar-toggle" id="sidebarToggle">☰</button>
+<div class="topbar">
+  <span class="topbar-title">About TechM4India</span>
+  <div class="topbar-actions">
+    <a href="index.html" class="topbar-btn-ghost">← Home</a>
+    <a href="login.html" class="topbar-btn">Login</a>
+  </div>
+</div>
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <span class="eyebrow">Our Story · Est. 2020</span>
+    <h1>We Build<br><em>Innovation</em><br>Ecosystems</h1>
+    <p class="hero-sub">TechM4India is a multi-vertical education technology and innovation company — partnering with institutions to create environments where students can explore, build, and shape the future.</p>
+    <div class="hero-stats">
+      <div class="stat-item"><div class="stat-num" data-count="500">0</div><div class="stat-label">Institutions</div></div>
+      <div class="stat-item"><div class="stat-num" data-count="10000">0</div><div class="stat-label">Students</div></div>
+      <div class="stat-item"><div class="stat-num" data-count="4">0</div><div class="stat-label">Divisions</div></div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div style="position:relative;width:100%;height:100%">
+      <div class="blob blob1"></div><div class="blob blob2"></div><div class="blob blob3"></div>
+      <div class="float-cards">
+        <div class="fcard"><span class="fcard-icon">⚙️</span><div><div class="fcard-num">Engineering</div><div class="fcard-txt">Innovation Labs</div></div></div>
+        <div class="fcard"><span class="fcard-icon">🤖</span><div><div class="fcard-num">Solutions</div><div class="fcard-txt">AI Platforms</div></div></div>
+        <div class="fcard"><span class="fcard-icon">🚀</span><div><div class="fcard-num">Space</div><div class="fcard-txt">Aerospace Labs</div></div></div>
+        <div class="fcard"><span class="fcard-icon">🏫</span><div><div class="fcard-num">Schools</div><div class="fcard-txt">Future Learning</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- MISSION -->
+<section class="mission-bg">
+  <div class="mission-inner">
+    <div>
+      <p class="section-label reveal-left" style="color:rgba(255,255,255,.4)">Our Purpose</p>
+      <h2 class="section-title reveal-left">Mission &amp; <em>Vision</em></h2>
+      <p class="section-desc reveal-left">TechM4India was founded on the belief that the future belongs to those who innovate — and that innovation starts with accessible, world-class education infrastructure.</p>
+      <p class="section-desc reveal-left" style="margin-top:-2rem">Our vision is to make every institution in India a launchpad for the next generation of engineers, scientists, AI builders, and space explorers.</p>
+    </div>
+    <div class="mission-values">
+      <div class="value-item reveal-right"><span class="value-icon">🔬</span><div><div class="value-title">Innovation First</div><div class="value-desc">Every initiative we build prioritizes hands-on innovation over passive learning.</div></div></div>
+      <div class="value-item reveal-right" style="transition-delay:.1s"><span class="value-icon">🌐</span><div><div class="value-title">India-First Impact</div><div class="value-desc">Purpose-built for India's unique educational landscape and aspirations.</div></div></div>
+      <div class="value-item reveal-right" style="transition-delay:.2s"><span class="value-icon">🤝</span><div><div class="value-title">Partnership Driven</div><div class="value-desc">Deep institution partnerships create lasting, embedded impact on campuses.</div></div></div>
+      <div class="value-item reveal-right" style="transition-delay:.3s"><span class="value-icon">🚀</span><div><div class="value-title">Future-Ready Focus</div><div class="value-desc">AI, Space, IoT, Robotics — we build for the skills of tomorrow, today.</div></div></div>
+    </div>
+  </div>
+</section>
+<!-- TEAM -->
+<section class="section" id="team">
+  <p class="section-label reveal">Leadership Team</p>
+  <h2 class="section-title reveal">The People Behind <em>TechM4</em></h2>
+  <p class="section-desc reveal">A diverse team of engineers, educators, product builders, and innovators — united by a shared mission to transform learning in India.</p>
+  <div class="team-grid">
+    <div class="team-card reveal" style="transition-delay:0s"><div class="team-avatar av-1">👨‍💼</div><div class="team-info"><div class="team-name">Rajiv Sharma</div><div class="team-role">Founder & CEO</div><div class="team-bio">15+ years in EdTech and innovation ecosystems. IIT Bombay alumnus.</div></div></div>
+    <div class="team-card reveal" style="transition-delay:.08s"><div class="team-avatar av-2">👩‍💻</div><div class="team-info"><div class="team-name">Priya Menon</div><div class="team-role">CTO · Solutions</div><div class="team-bio">AI and distributed systems architect. Previously at Infosys Research Labs.</div></div></div>
+    <div class="team-card reveal" style="transition-delay:.16s"><div class="team-avatar av-3">👨‍🚀</div><div class="team-info"><div class="team-name">Dr. Arjun Nair</div><div class="team-role">Head · Space Division</div><div class="team-bio">Aerospace engineer and CanSat mission specialist. ISRO collaborator.</div></div></div>
+    <div class="team-card reveal" style="transition-delay:.24s"><div class="team-avatar av-4">👩‍🏫</div><div class="team-info"><div class="team-name">Sunita Rao</div><div class="team-role">Head · Schools Division</div><div class="team-bio">20 years in school education reform. National Teacher Award winner.</div></div></div>
+    <div class="team-card reveal" style="transition-delay:.32s"><div class="team-avatar av-5">👨‍🔬</div><div class="team-info"><div class="team-name">Vikram Patel</div><div class="team-role">Head · Engineering</div><div class="team-bio">Product engineer turned educator. Built labs at 80+ engineering colleges.</div></div></div>
+    <div class="team-card reveal" style="transition-delay:.4s"><div class="team-avatar av-6">👩‍🎨</div><div class="team-info"><div class="team-name">Ananya Iyer</div><div class="team-role">Chief Design Officer</div><div class="team-bio">UX and brand strategy. Designed platforms used by 100K+ students.</div></div></div>
+    <div class="team-card reveal" style="transition-delay:.48s"><div class="team-avatar av-7">👨‍💰</div><div class="team-info"><div class="team-name">Suresh Babu</div><div class="team-role">CFO & Operations</div><div class="team-bio">Chartered Accountant with expertise in education sector financing.</div></div></div>
+    <div class="team-card reveal" style="transition-delay:.56s"><div class="team-avatar av-8">👩‍🔬</div><div class="team-info"><div class="team-name">Dr. Kavya Singh</div><div class="team-role">Research Director</div><div class="team-bio">AI researcher and curriculum innovator. PhD from IISc Bangalore.</div></div></div>
+  </div>
+</section>
+<!-- COLLABORATORS -->
+<section class="collab-section" id="collaborators">
+  <p class="collab-label">Our Collaborators &amp; Ecosystem Partners</p>
+  <div style="overflow:hidden;margin-bottom:1rem">
+    <div class="ticker-track">
+      <div class="ticker-row">
+        <div class="collab-pill"><span class="collab-icon">🎓</span><span class="collab-name">IIT Hyderabad</span></div>
+        <div class="collab-pill"><span class="collab-icon">🏛️</span><span class="collab-name">JNTUH</span></div>
+        <div class="collab-pill"><span class="collab-icon">🔬</span><span class="collab-name">ISRO</span></div>
+        <div class="collab-pill"><span class="collab-icon">💡</span><span class="collab-name">NASSCOM</span></div>
+        <div class="collab-pill"><span class="collab-icon">🤖</span><span class="collab-name">DRDO</span></div>
+        <div class="collab-pill"><span class="collab-icon">🌐</span><span class="collab-name">Microsoft India</span></div>
+        <div class="collab-pill"><span class="collab-icon">☁️</span><span class="collab-name">AWS EdTech</span></div>
+        <div class="collab-pill"><span class="collab-icon">🏢</span><span class="collab-name">TCS iON</span></div>
+        <div class="collab-pill"><span class="collab-icon">🎓</span><span class="collab-name">IIT Hyderabad</span></div>
+        <div class="collab-pill"><span class="collab-icon">🏛️</span><span class="collab-name">JNTUH</span></div>
+        <div class="collab-pill"><span class="collab-icon">🔬</span><span class="collab-name">ISRO</span></div>
+        <div class="collab-pill"><span class="collab-icon">💡</span><span class="collab-name">NASSCOM</span></div>
+        <div class="collab-pill"><span class="collab-icon">🤖</span><span class="collab-name">DRDO</span></div>
+        <div class="collab-pill"><span class="collab-icon">🌐</span><span class="collab-name">Microsoft India</span></div>
+        <div class="collab-pill"><span class="collab-icon">☁️</span><span class="collab-name">AWS EdTech</span></div>
+        <div class="collab-pill"><span class="collab-icon">🏢</span><span class="collab-name">TCS iON</span></div>
+      </div>
+    </div>
+  </div>
+  <div style="overflow:hidden">
+    <div class="ticker-track" style="animation-direction:reverse">
+      <div class="ticker-row">
+        <div class="collab-pill"><span class="collab-icon">🏫</span><span class="collab-name">CBSE Partner</span></div>
+        <div class="collab-pill"><span class="collab-icon">🚀</span><span class="collab-name">SpaceKidz India</span></div>
+        <div class="collab-pill"><span class="collab-icon">📡</span><span class="collab-name">IIST Thiruvananthapuram</span></div>
+        <div class="collab-pill"><span class="collab-icon">🔭</span><span class="collab-name">Aryabhatta Research Inst.</span></div>
+        <div class="collab-pill"><span class="collab-icon">🏭</span><span class="collab-name">Bosch India</span></div>
+        <div class="collab-pill"><span class="collab-icon">💊</span><span class="collab-name">Apollo Hospitals</span></div>
+        <div class="collab-pill"><span class="collab-icon">🌾</span><span class="collab-name">ICAR</span></div>
+        <div class="collab-pill"><span class="collab-icon">🏫</span><span class="collab-name">CBSE Partner</span></div>
+        <div class="collab-pill"><span class="collab-icon">🚀</span><span class="collab-name">SpaceKidz India</span></div>
+        <div class="collab-pill"><span class="collab-icon">📡</span><span class="collab-name">IIST Thiruvananthapuram</span></div>
+        <div class="collab-pill"><span class="collab-icon">🔭</span><span class="collab-name">Aryabhatta Research Inst.</span></div>
+        <div class="collab-pill"><span class="collab-icon">🏭</span><span class="collab-name">Bosch India</span></div>
+        <div class="collab-pill"><span class="collab-icon">💊</span><span class="collab-name">Apollo Hospitals</span></div>
+        <div class="collab-pill"><span class="collab-icon">🌾</span><span class="collab-name">ICAR</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- DIVISIONS SHOWCASE -->
+<section class="divisions-section">
+  <div class="div-inner">
+    <p class="section-label reveal">Our Divisions</p>
+    <h2 class="section-title reveal">Four Verticals.<br><em>One Mission.</em></h2>
+    <p class="section-desc reveal">Each division is purpose-built for its domain — with unique methodologies, platforms, and innovation frameworks.</p>
+    <div class="divisions-scroll">
+      <a href="engineering.html" class="div-block reveal"><span class="db-icon">⚙️</span><p class="db-tag" style="color:var(--blue)">Engineering Division</p><h3 class="db-title">TechM4 Engineering</h3><p class="db-desc">Transforming engineering campuses into active technology innovation ecosystems with labs, skill centers, and credit-based programs.</p><span class="db-link" style="color:var(--blue)">Visit Division →</span></a>
+      <a href="solutions.html" class="div-block reveal" style="transition-delay:.1s"><span class="db-icon">🤖</span><p class="db-tag" style="color:var(--purple)">AI & Software</p><h3 class="db-title">TechM4 Solutions</h3><p class="db-desc">Building next-generation intelligent digital platforms powered by Agentic AI, data intelligence, and cloud-native SaaS architecture.</p><span class="db-link" style="color:var(--purple)">Visit Division →</span></a>
+      <a href="space.html" class="div-block reveal" style="transition-delay:.2s"><span class="db-icon">🚀</span><p class="db-tag" style="color:var(--ink-l)">Aerospace Division</p><h3 class="db-title">TechM4 Space</h3><p class="db-desc">Enabling institutions to establish CanSat labs, CubeSat programs, rocket propulsion facilities and aerospace innovation ecosystems.</p><span class="db-link" style="color:var(--ink-l)">Visit Division →</span></a>
+      <a href="techm4schools.html" class="div-block reveal" style="transition-delay:.3s"><span class="db-icon">🏫</span><p class="db-tag" style="color:var(--orange)">Schools Division</p><h3 class="db-title">TechM4 Schools</h3><p class="db-desc">Transforming schools into innovation-driven campuses with coding labs, robotics, AI exploration, and drone technology programs.</p><span class="db-link" style="color:var(--orange)">Visit Division →</span></a>
+    </div>
+  </div>
+</section>
+<!-- TIMELINE -->
+<section class="timeline-section" id="timeline">
+  <p class="section-label reveal">Our Journey</p>
+  <h2 class="section-title reveal">Key <em>Milestones</em></h2>
+  <p class="section-desc reveal">From a single idea to a multi-vertical innovation company impacting thousands of students across India.</p>
+  <div class="timeline">
+    <div class="tl-item"><div class="tl-year reveal-left">2020</div><div class="tl-dot"></div><div class="tl-content reveal-right"><div class="tl-tag">Foundation</div><div class="tl-title">TechM4India Founded</div><div class="tl-desc">Born from the vision of bridging the gap between academic education and real-world innovation in India's engineering institutions.</div></div></div>
+    <div class="tl-item"><div class="tl-year reveal-left">2021</div><div class="tl-dot"></div><div class="tl-content reveal-right"><div class="tl-tag">Growth</div><div class="tl-title">Engineering Division Launch</div><div class="tl-desc">TechM4Engineering officially launched — first 50 institution partnerships established across Telangana and Andhra Pradesh.</div></div></div>
+    <div class="tl-item"><div class="tl-year reveal-left">2022</div><div class="tl-dot"></div><div class="tl-content reveal-right"><div class="tl-tag">Expansion</div><div class="tl-title">Space & Schools Divisions</div><div class="tl-desc">Expanded into aerospace education with TechM4Space Technology and school innovation with TechM4Schools — reaching 5,000+ students.</div></div></div>
+    <div class="tl-item"><div class="tl-year reveal-left">2023</div><div class="tl-dot"></div><div class="tl-content reveal-right"><div class="tl-tag">Technology</div><div class="tl-title">TechM4Solutions & SchoolOS</div><div class="tl-desc">Launched the AI-powered digital products division. SchoolOS deployed across 100+ institutions. Education Intelligence Platform goes live.</div></div></div>
+    <div class="tl-item"><div class="tl-year reveal-left">2025</div><div class="tl-dot"></div><div class="tl-content reveal-right"><div class="tl-tag">Today</div><div class="tl-title">500+ Institutions, 10K+ Students</div><div class="tl-desc">TechM4India now operates across 4 divisions, 500+ institutional partnerships, impacting 10,000+ students across India's innovation ecosystem.</div></div></div>
+  </div>
+</section>
+<!-- CONTACT -->
+<section class="contact-section" id="contact">
+  <div style="position:relative;max-width:1200px;margin:0 auto">
+    <p class="section-label" style="color:rgba(255,255,255,.4);text-align:center">Get in Touch</p>
+    <h2 class="section-title" style="text-align:center;max-width:600px;margin:0 auto 1.2rem;color:#fff">Partner With <em>TechM4India</em> Today</h2>
+    <p class="section-desc" style="text-align:center;color:rgba(255,255,255,.55);margin:0 auto 2.5rem">Whether you're an institution, investor, or collaborator — we'd love to connect and explore how we can build the future together.</p>
+    <div class="contact-grid">
+      <div class="contact-card"><span class="cc-icon">📧</span><div class="cc-label">Email</div><div class="cc-value">hello@techm4.in</div></div>
+      <div class="contact-card"><span class="cc-icon">📍</span><div class="cc-label">Location</div><div class="cc-value">Hyderabad, India</div></div>
+      <div class="contact-card"><span class="cc-icon">📞</span><div class="cc-label">Phone</div><div class="cc-value">+91 98765 43210</div></div>
+    </div>
+    <form class="contact-form" onsubmit="handleContact(event)">
+      <input type="text" placeholder="Your Name" required>
+      <input type="email" placeholder="Your Email" required>
+      <textarea placeholder="Your message — tell us about your institution or partnership interest..."></textarea>
+      <input type="submit" value="Send Message →">
+    </form>
+  </div>
+</section>
+<footer>
+  <a href="index.html" class="footer-brand">Tech<span>M4</span></a>
+  <p>© 2025 TechM4India. Building Tomorrow's Innovators.</p>
+  <div class="footer-links">
+    <a href="engineering.html">Engineering</a><a href="solutions.html">Solutions</a>
+    <a href="space.html">Space</a><a href="techm4schools.html">Schools</a><a href="login.html">Login</a>
+  </div>
+</footer>
+<div class="toast" id="toast"></div>
+<script>
+const sidebar=document.getElementById('sidebar');
+sidebar.addEventListener('mouseenter',()=>document.body.classList.add('sidebar-open'));
+sidebar.addEventListener('mouseleave',()=>{if(!sidebar.classList.contains('open'))document.body.classList.remove('sidebar-open')});
+const toggle=document.getElementById('sidebarToggle');
+if(toggle)toggle.addEventListener('click',()=>{sidebar.classList.toggle('open');sidebar.style.display='flex';document.body.classList.toggle('sidebar-open')});
+
+// Counter animation
+function animateCount(el){
+  const target=+el.dataset.count,dur=1800,step=target/(dur/16);let cur=0;
+  const t=setInterval(()=>{cur=Math.min(cur+step,target);el.textContent=target>=1000?(cur>=1000?Math.round(cur/1000)+'K+':Math.round(cur)):Math.round(cur)+(target>10?'+':'');if(cur>=target)clearInterval(t)},16);
+}
+const cObs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){animateCount(e.target);cObs.unobserve(e.target)}})},{threshold:.5});
+document.querySelectorAll('[data-count]').forEach(c=>cObs.observe(c));
+
+// Scroll reveal
+const rObs=new IntersectionObserver(entries=>{entries.forEach((e,i)=>{if(e.isIntersecting)setTimeout(()=>e.target.classList.add('visible'),i*60)})},{threshold:.1});
+document.querySelectorAll('.reveal,.reveal-left,.reveal-right').forEach(r=>rObs.observe(r));
+
+// Contact form
+function handleContact(e){
+  e.preventDefault();const btn=e.target.querySelector('[type="submit"]');
+  btn.value='✅ Message Sent!';btn.style.background='#22C55E';
+  setTimeout(()=>{btn.value='Send Message →';btn.style.background=''},3000);
+}
+
+// Page transitions
+document.querySelectorAll('a[href$=".html"]').forEach(link=>{
+  link.addEventListener('click',e=>{
+    const href=link.getAttribute('href');
+    if(!href||href==='about.html')return;
+    e.preventDefault();
+    document.body.style.opacity='0';document.body.style.transition='opacity .4s';
+    setTimeout(()=>window.location.href=href,400);
+  });
+});
+</script>
+</body>
+</html>

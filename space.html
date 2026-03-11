@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TechM4Space Technology – Building Space Innovation Ecosystems</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#FFFBF5;--ink:#1A1A2E;--ink-l:#4A4A6A;
+  --orange:#FF6B35;--pink:#FF4D8D;--purple:#7B2FF7;
+  --blue:#0EA5E9;--green:#22C55E;--yellow:#FFD60A;
+  --border:rgba(26,26,46,.08);--surface:#FFFFFF;
+  --g-main:linear-gradient(135deg,#FF6B35,#FF4D8D);
+  --g-cool:linear-gradient(135deg,#0EA5E9,#7B2FF7);
+}
+html{scroll-behavior:smooth}
+body{font-family:'Quicksand',sans-serif;background:var(--ink);color:#E8F4FD;overflow-x:hidden}
+#starCanvas{position:fixed;inset:0;z-index:0;pointer-events:none}
+
+/* LOADER */
+.loader{position:fixed;inset:0;z-index:9999;background:var(--ink);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:2rem;transition:opacity .8s,visibility .8s}
+.loader.hidden{opacity:0;visibility:hidden}
+.rocket-loader{font-size:3rem;animation:rocketLaunch 2s ease forwards}
+@keyframes rocketLaunch{0%{transform:translateY(0) rotate(0deg);opacity:1}50%{transform:translateY(-20px) rotate(-5deg)}80%{transform:translateY(60px) rotate(5deg);opacity:.5}100%{transform:translateY(200px);opacity:0}}
+.loader-progress{width:200px;height:3px;background:rgba(255,255,255,.1);border-radius:3px;overflow:hidden}
+.loader-bar{height:100%;background:var(--g-main);animation:loadBar 1.8s ease forwards}
+@keyframes loadBar{to{width:100%}}
+.loader-text{font-family:'Nunito',sans-serif;font-size:.75rem;font-weight:800;letter-spacing:.3em;color:var(--orange)}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 3rem;height:68px;display:flex;align-items:center;gap:2rem;background:rgba(26,26,46,.85);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,107,53,.12)}
+.logo{font-family:'Nunito',sans-serif;font-weight:900;font-size:1.1rem;text-decoration:none;color:#E8F4FD;letter-spacing:.05em}
+.logo span{color:var(--orange)}
+.nav-links-center{display:flex;gap:2rem;margin:0 auto}
+.nav-links-center a{text-decoration:none;color:rgba(232,244,253,.6);font-size:.85rem;font-weight:700;transition:color .2s}
+.nav-links-center a:hover{color:var(--orange)}
+.back-link{color:rgba(232,244,253,.6);font-size:.82rem;text-decoration:none;font-weight:700}
+.back-link:hover{color:var(--orange)}
+.nav-cta{background:var(--g-main);color:#fff;border:none;border-radius:100px;padding:.5rem 1.3rem;font-family:'Nunito',sans-serif;font-size:.82rem;font-weight:800;text-decoration:none;box-shadow:0 4px 16px rgba(255,107,53,.28);transition:transform .2s}
+.nav-cta:hover{transform:translateY(-2px)}
+
+/* HERO */
+.hero{min-height:100vh;position:relative;z-index:1;display:flex;align-items:center;justify-content:center;padding:8rem 3rem 4rem;text-align:center}
+.nebula-glow{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none}
+.nebula-1{width:600px;height:400px;background:rgba(255,107,53,.07);top:20%;left:20%}
+.nebula-2{width:400px;height:400px;background:rgba(255,77,141,.06);top:40%;right:15%}
+.nebula-3{width:300px;height:300px;background:rgba(123,47,247,.05);bottom:20%;left:40%}
+.hero-content{position:relative;z-index:2;max-width:800px}
+.mission-badge{display:inline-flex;align-items:center;gap:.6rem;background:rgba(255,107,53,.1);border:1px solid rgba(255,107,53,.25);border-radius:100px;padding:.4rem 1rem;font-family:'Nunito',sans-serif;font-size:.72rem;font-weight:800;letter-spacing:.12em;color:var(--orange);margin-bottom:2rem;animation:fadeUp .8s .3s both}
+.orbit-icon{font-size:1rem;animation:orbitSpin 3s linear infinite;display:inline-block}
+@keyframes orbitSpin{to{transform:rotate(360deg)}}
+h1{font-family:'Nunito',sans-serif;font-weight:900;font-size:clamp(2.2rem,6vw,5rem);line-height:1.1;margin-bottom:1.5rem;letter-spacing:.02em;animation:fadeUp .8s .5s both}
+.h1-orange{color:var(--orange)}.h1-pink{color:var(--pink)}
+.hero-sub{font-size:1.05rem;color:rgba(232,244,253,.65);line-height:1.8;max-width:580px;margin:0 auto 2.5rem;animation:fadeUp .8s .7s both}
+.hero-btns{display:flex;gap:1rem;justify-content:center;animation:fadeUp .8s .9s both}
+.btn-space{background:var(--g-main);color:#fff;padding:.85rem 2rem;border-radius:100px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.92rem;text-decoration:none;box-shadow:0 6px 24px rgba(255,107,53,.3);transition:transform .2s,box-shadow .2s}
+.btn-space:hover{transform:translateY(-2px);box-shadow:0 12px 36px rgba(255,107,53,.48)}
+.btn-outline-space{background:transparent;border:1px solid rgba(232,244,253,.2);color:rgba(232,244,253,.7);padding:.85rem 2rem;border-radius:100px;font-family:'Nunito',sans-serif;font-weight:700;font-size:.92rem;text-decoration:none;transition:border-color .2s,color .2s}
+.btn-outline-space:hover{border-color:var(--orange);color:#fff}
+
+/* ORBIT VISUAL */
+.orbit-visual{position:relative;width:300px;height:300px;margin:4rem auto 2rem;animation:fadeUp .8s 1.1s both}
+.planet{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:3rem}
+.orbit-ring{position:absolute;top:50%;left:50%;border-radius:50%;border:1px solid;transform:translate(-50%,-50%)}
+.ring1{width:150px;height:70px;border-color:rgba(255,107,53,.25)}
+.ring2{width:220px;height:100px;border-color:rgba(255,77,141,.18)}
+.ring3{width:290px;height:130px;border-color:rgba(123,47,247,.12)}
+.satellite{position:absolute;font-size:1rem;top:50%;left:50%;animation:orbit linear infinite;transform-origin:0 0}
+.sat1{animation-duration:4s}.sat2{animation-duration:7s;animation-delay:-2s}.sat3{animation-duration:10s;animation-delay:-5s}
+@keyframes orbit{from{transform:rotate(0deg) translateX(75px) rotate(0deg)}to{transform:rotate(360deg) translateX(75px) rotate(-360deg)}}
+
+/* LABS */
+.labs{padding:7rem 3rem;max-width:1260px;margin:0 auto;position:relative;z-index:1}
+.sec-label{font-family:'Nunito',sans-serif;font-size:.7rem;font-weight:800;color:var(--orange);letter-spacing:.2em;text-transform:uppercase;margin-bottom:.8rem}
+.sec-title{font-family:'Nunito',sans-serif;font-size:clamp(1.6rem,3vw,2.4rem);font-weight:900;line-height:1.3;margin-bottom:1rem;color:#E8F4FD}
+.sec-title span{background:var(--g-main);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.sec-desc{color:rgba(232,244,253,.55);max-width:520px;line-height:1.7;margin-bottom:4rem;font-size:.93rem}
+.labs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+.lab-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:18px;padding:2rem;transition:border-color .3s,box-shadow .3s,transform .3s;position:relative;overflow:hidden}
+.lab-card::after{content:'';position:absolute;top:0;left:0;right:0;height:3px;opacity:0;transition:opacity .3s}
+.lab-card.orange-c::after{background:var(--g-main)}
+.lab-card.pink-c::after{background:linear-gradient(90deg,var(--pink),var(--purple))}
+.lab-card.purple-c::after{background:linear-gradient(90deg,var(--purple),var(--blue))}
+.lab-card:hover{transform:translateY(-6px);box-shadow:0 20px 48px rgba(0,0,0,.3)}
+.lab-card.orange-c:hover{border-color:rgba(255,107,53,.3)}.lab-card.orange-c:hover::after{opacity:1}
+.lab-card.pink-c:hover{border-color:rgba(255,77,141,.3)}.lab-card.pink-c:hover::after{opacity:1}
+.lab-card.purple-c:hover{border-color:rgba(123,47,247,.3)}.lab-card.purple-c:hover::after{opacity:1}
+.lab-icon{font-size:2rem;margin-bottom:1rem;display:block}
+.lab-name{font-family:'Nunito',sans-serif;font-size:.95rem;font-weight:900;margin-bottom:.6rem;color:#E8F4FD}
+.lab-desc{font-size:.83rem;color:rgba(232,244,253,.55);line-height:1.65}
+.lab-status{display:inline-flex;align-items:center;gap:.4rem;margin-top:1rem;font-size:.7rem;font-weight:700;color:var(--orange)}
+.status-dot{width:5px;height:5px;border-radius:50%;background:var(--orange);animation:dotBlink 2s infinite}
+@keyframes dotBlink{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* KITS */
+.kits{padding:6rem 3rem;background:rgba(255,255,255,.02);position:relative;z-index:1;border-top:1px solid rgba(255,255,255,.05);border-bottom:1px solid rgba(255,255,255,.05)}
+.kits-inner{max-width:1260px;margin:0 auto}
+.kits-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:1rem;margin-top:3rem}
+.kit-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:1.5rem;text-align:center;transition:transform .3s,border-color .3s}
+.kit-card:hover{transform:translateY(-4px);border-color:rgba(255,107,53,.3)}
+.kit-icon{font-size:2rem;display:block;margin-bottom:.8rem}
+.kit-name{font-family:'Nunito',sans-serif;font-size:.72rem;font-weight:800;color:var(--orange)}
+
+/* CTA */
+.cta-section{padding:8rem 3rem;text-align:center;position:relative;z-index:1;background:radial-gradient(ellipse 80% 60% at 50% 50%,rgba(255,107,53,.06) 0%,transparent 70%)}
+.cta-section h2{font-family:'Nunito',sans-serif;font-size:clamp(1.6rem,3vw,2.4rem);font-weight:900;margin-bottom:1.2rem;color:#E8F4FD}
+.cta-section p{color:rgba(232,244,253,.55);max-width:480px;margin:0 auto 2.5rem;line-height:1.7}
+
+footer{background:rgba(26,26,46,.95);border-top:1px solid rgba(255,107,53,.12);padding:2.5rem 3rem;display:flex;align-items:center;justify-content:space-between;position:relative;z-index:1}
+footer p{font-size:.78rem;color:rgba(232,244,253,.4)}
+footer a{color:rgba(232,244,253,.4);text-decoration:none;font-size:.78rem;font-weight:700;transition:color .2s}
+footer a:hover{color:var(--orange)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s,transform .7s}
+.reveal.visible{opacity:1;transform:none}
+@media(max-width:900px){nav{padding:0 1.5rem}.nav-links-center{display:none}.hero,.labs,.kits,.cta-section{padding:4rem 1.5rem}.labs-grid{grid-template-columns:1fr}.kits-grid{grid-template-columns:repeat(2,1fr)}footer{flex-direction:column;gap:1rem;padding:2rem}}
+</style>
+</head>
+<body>
+<canvas id="starCanvas"></canvas>
+<div class="loader" id="loader">
+  <div class="rocket-loader">🚀</div>
+  <div class="loader-progress"><div class="loader-bar"></div></div>
+  <div class="loader-text">INITIATING LAUNCH SEQUENCE</div>
+</div>
+<nav>
+  <a href="index.html" class="back-link">← TechM4</a>
+  <a href="space.html" class="logo">TechM4<span>Space</span></a>
+  <div class="nav-links-center">
+    <a href="#labs">Labs</a>
+    <a href="#kits">Student Kits</a>
+    <a href="#programs">Programs</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <a href="#contact" class="nav-cta">Partner With Us</a>
+</nav>
+<section class="hero">
+  <div class="nebula-1 nebula-glow"></div><div class="nebula-2 nebula-glow"></div><div class="nebula-3 nebula-glow"></div>
+  <div class="hero-content">
+    <div class="mission-badge"><span class="orbit-icon">🛸</span>MISSION: EMPOWERING SPACE INNOVATORS</div>
+    <h1><span class="h1-orange">Building</span><br>Space Innovation<br><span class="h1-pink">Ecosystems</span></h1>
+    <p class="hero-sub">Enabling universities and schools to establish next-generation aerospace and space technology learning ecosystems — from CanSat labs to CubeSat programs and rocket propulsion facilities.</p>
+    <div class="hero-btns">
+      <a href="#labs" class="btn-space">Explore Labs →</a>
+      <a href="#kits" class="btn-outline-space">Student Kits</a>
+    </div>
+    <div class="orbit-visual">
+      <div class="ring1 orbit-ring"></div><div class="ring2 orbit-ring"></div><div class="ring3 orbit-ring"></div>
+      <div class="planet">🌍</div>
+      <div class="satellite sat1">🛰️</div><div class="satellite sat2">🚀</div><div class="satellite sat3">⭐</div>
+    </div>
+  </div>
+</section>
+<section class="labs" id="labs">
+  <p class="sec-label reveal">// Space Technology Infrastructure</p>
+  <h2 class="sec-title reveal">Next-Generation<br><span>Aerospace Labs</span></h2>
+  <p class="sec-desc reveal">TechM4Space Technology enables institutions to establish structured aerospace innovation infrastructure on campus — where students design, build, and launch.</p>
+  <div class="labs-grid">
+    <div class="lab-card orange-c reveal"><span class="lab-icon">🛰️</span><h3 class="lab-name">CanSat Development Lab</h3><p class="lab-desc">Students design and build miniature satellites to understand real satellite subsystems, telemetry, and mission architecture.</p><span class="lab-status"><span class="status-dot"></span>Active Program</span></div>
+    <div class="lab-card pink-c reveal" style="transition-delay:.1s"><span class="lab-icon">🔭</span><h3 class="lab-name">CubeSat Technology Lab</h3><p class="lab-desc">Hands-on exposure to satellite structure, payload systems, communication modules, and space mission design.</p><span class="lab-status"><span class="status-dot"></span>Active Program</span></div>
+    <div class="lab-card purple-c reveal" style="transition-delay:.2s"><span class="lab-icon">🚀</span><h3 class="lab-name">Rocket & Propulsion Lab</h3><p class="lab-desc">Understanding rocket science fundamentals, propulsion systems, and launch vehicle technologies through hands-on experimentation.</p><span class="lab-status"><span class="status-dot"></span>Active Program</span></div>
+    <div class="lab-card orange-c reveal" style="transition-delay:.3s"><span class="lab-icon">🚁</span><h3 class="lab-name">Drone & Aerial Systems Lab</h3><p class="lab-desc">Exploring unmanned aerial vehicles used in aerospace engineering, surveillance, mapping, and applied research.</p><span class="lab-status"><span class="status-dot"></span>Active Program</span></div>
+    <div class="lab-card pink-c reveal" style="transition-delay:.4s"><span class="lab-icon">🔬</span><h3 class="lab-name">Advanced Research Lab</h3><p class="lab-desc">Applied research environments focused on defense and aerospace technology concepts, inspired by DRDO methodologies.</p><span class="lab-status"><span class="status-dot"></span>Active Program</span></div>
+    <div class="lab-card purple-c reveal" style="transition-delay:.5s"><span class="lab-icon">📡</span><h3 class="lab-name">Space Communication Lab</h3><p class="lab-desc">Understanding telemetry systems, satellite communication protocols, and ground station design for real mission scenarios.</p><span class="lab-status"><span class="status-dot"></span>Active Program</span></div>
+  </div>
+</section>
+<section class="kits" id="kits">
+  <div class="kits-inner">
+    <p class="sec-label reveal">// Student Development Kits</p>
+    <h2 class="sec-title reveal">Hands-On Aerospace<br><span>Learning Kits</span></h2>
+    <p class="sec-desc reveal">Specialized student technology kits that allow hands-on experimentation — enabling students to design, experiment, and build aerospace systems while understanding real engineering principles.</p>
+    <div class="kits-grid">
+      <div class="kit-card reveal"><span class="kit-icon">🛰️</span><p class="kit-name">CanSat Student Kit</p></div>
+      <div class="kit-card reveal" style="transition-delay:.1s"><span class="kit-icon">🔭</span><p class="kit-name">CubeSat Learning Kit</p></div>
+      <div class="kit-card reveal" style="transition-delay:.2s"><span class="kit-icon">🚀</span><p class="kit-name">Rocket Science Kit</p></div>
+      <div class="kit-card reveal" style="transition-delay:.3s"><span class="kit-icon">🚁</span><p class="kit-name">Drone Technology Kit</p></div>
+      <div class="kit-card reveal" style="transition-delay:.4s"><span class="kit-icon">🌌</span><p class="kit-name">Space Systems Kit</p></div>
+    </div>
+  </div>
+</section>
+<section class="labs" id="programs" style="padding-top:4rem">
+  <p class="sec-label reveal">// Learning Experience</p>
+  <h2 class="sec-title reveal">What Students <span>Gain</span></h2>
+  <p class="sec-desc reveal">Students participating in TechM4Space initiatives gain comprehensive exposure to real aerospace engineering concepts and practices.</p>
+  <div class="labs-grid">
+    <div class="lab-card orange-c reveal"><span class="lab-icon">🌍</span><h3 class="lab-name">Satellite Architecture</h3><p class="lab-desc">Satellite architecture and mission design — from concept to orbit simulation and telemetry analysis.</p></div>
+    <div class="lab-card pink-c reveal" style="transition-delay:.1s"><span class="lab-icon">🔥</span><h3 class="lab-name">Rocket Propulsion</h3><p class="lab-desc">Rocket propulsion systems and launch vehicle technologies — understanding thrust, trajectory, and staging.</p></div>
+    <div class="lab-card purple-c reveal" style="transition-delay:.2s"><span class="lab-icon">📡</span><h3 class="lab-name">Space Communication</h3><p class="lab-desc">Space communication and telemetry systems for real-world satellite data transmission and ground-station operations.</p></div>
+  </div>
+</section>
+<section class="cta-section" id="contact">
+  <h2>Ready to Launch Your<br><span style="background:var(--g-main);-webkit-background-clip:text;-webkit-text-fill-color:transparent">Space Lab?</span></h2>
+  <p>Partner with TechM4Space Technology to establish a next-generation aerospace innovation ecosystem at your institution.</p>
+  <div style="display:flex;gap:1rem;justify-content:center">
+    <a href="#" class="btn-space">Partner With Us →</a>
+    <a href="index.html" class="btn-outline-space">← Back to TechM4</a>
+  </div>
+</section>
+<footer>
+  <span class="logo" style="font-family:'Nunito',sans-serif;font-size:.95rem">TechM4<span style="color:var(--orange)">Space</span></span>
+  <p>© 2025 TechM4India · Building Space Innovation Ecosystems for Future Engineers</p>
+  <a href="index.html">← TechM4 Home</a>
+</footer>
+<script>
+window.addEventListener('load',()=>setTimeout(()=>document.getElementById('loader').classList.add('hidden'),2200));
+const canvas=document.getElementById('starCanvas'),ctx=canvas.getContext('2d');let stars=[];
+function resize(){canvas.width=innerWidth;canvas.height=innerHeight}
+function createStars(){stars=[];const count=Math.floor((canvas.width*canvas.height)/3000);for(let i=0;i<count;i++){stars.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*1.5,opacity:Math.random()*.8+.1,twinkle:Math.random()*.02+.005,phase:Math.random()*Math.PI*2})}}
+function drawStars(t){ctx.clearRect(0,0,canvas.width,canvas.height);stars.forEach(s=>{const op=s.opacity*(.6+.4*Math.sin(t*s.twinkle+s.phase));ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle=`rgba(255,200,180,${op})`;ctx.fill()});requestAnimationFrame(drawStars)}
+resize();createStars();drawStars(0);window.addEventListener('resize',()=>{resize();createStars()});
+const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')})},{threshold:.1});
+document.querySelectorAll('.reveal').forEach(r=>obs.observe(r));
+document.querySelectorAll('a[href="index.html"]').forEach(link=>{
+  link.addEventListener('click',e=>{e.preventDefault();document.body.style.opacity='0';document.body.style.transition='opacity .4s';setTimeout(()=>window.location.href='index.html',400)});
+});
+</script>
+</body>
+</html>
